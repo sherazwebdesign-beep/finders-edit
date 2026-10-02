@@ -65,7 +65,7 @@ function Index() {
             <span className="absolute bottom-0 left-0 origin-bottom-left -rotate-90 translate-x-[0.85em] whitespace-nowrap font-serif text-[64px] leading-none tracking-tight md:text-[150px]">finders</span>
           </div>
           <div className="relative pt-12 md:pt-16">
-            <span className="absolute -top-2 right-0 z-10 font-serif text-[80px] italic leading-none md:-right-10 md:text-[170px]">edit</span>
+            <span className="absolute -top-2 right-0 z-10 font-serif text-[80px] italic text-bone mix-blend-difference leading-none md:-right-10 md:text-[170px]">edit</span>
             <div className="relative aspect-[4/5] overflow-hidden bg-ink md:aspect-[5/4]">
               <img src={p5.url} alt="Sculptural diamond collar on a neckline" className="grain h-full w-full object-cover" />
               <p className="hand absolute left-[12%] top-[35%] -rotate-6 text-6xl text-editorial md:text-9xl">look what<br />&nbsp;&nbsp;I found</p>
