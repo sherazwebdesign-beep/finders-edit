@@ -10,7 +10,9 @@
   --radius-lg: 0px;
   --radius-xl: 0px;
   --font-serif: "Bodoni Moda", "Playfair Display", Georgia, serif;
-  --font-hand: "Caveat", cursive;
+  --font-hand: "La Belle Aurore", cursive;
+  --font-script: "Mrs Saint Delafield", cursive;
+  --font-raw: "Reenie Beanie", cursive;
   --font-mono: "Space Mono", ui-monospace, monospace;
   --font-sans: "Space Mono", ui-monospace, monospace;
   --color-background: var(--background);
@@ -54,11 +56,11 @@
   --taupe: oklch(0.87 0.022 75);
   --ink: oklch(0.18 0 0);
   --charcoal: oklch(0.4 0.006 70);
-  --editorial: oklch(0.52 0.2 25);
+  --editorial: oklch(0.5 0.19 25);
   --burgundy: oklch(0.43 0.13 25);
-  --pen: oklch(0.42 0.09 258);
+  --pen: oklch(0.36 0.08 255);
   --gold: oklch(0.62 0.07 80);
-  --blush: oklch(0.86 0.05 10);
+  --blush: oklch(0.88 0.045 10);
   --pitch: oklch(0.14 0 0);
 
   --background: var(--bone);
@@ -101,7 +103,7 @@
 }
 @utility hand {
   font-family: var(--font-hand);
-  line-height: 0.95;
+  line-height: 1.15;
 }
 @utility link-line {
   font-family: var(--font-mono);
@@ -112,6 +114,21 @@
   padding-bottom: 4px;
   transition: color 0.2s;
   &:hover { color: var(--editorial); }
+}
+@utility script {
+  font-family: var(--font-script);
+  font-weight: 400;
+  line-height: 1;
+  opacity: 0.92;
+}
+@utility ink-raw {
+  font-family: var(--font-raw);
+  line-height: 0.9;
+}
+@utility paper-grain {
+  background-image: radial-gradient(oklch(0.3 0.03 20 / 0.06) 1px, transparent 1px), radial-gradient(oklch(1 0 0 / 0.25) 1px, transparent 1px);
+  background-size: 3px 3px, 5px 5px;
+  background-position: 0 0, 1px 2px;
 }
 @utility grain {
   filter: grayscale(1) contrast(1.08);
