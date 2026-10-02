@@ -20,12 +20,12 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Item = { no: string; name: string; note: string; rent: number; own: number; img: string; bg?: string; bw?: boolean };
+type Item = { no: string; name: string; note: string; key: string; rent: number; own: number; img: string; bg?: string; bw?: boolean };
 const finds: Item[] = [
-  { no: "041", name: "Gilt Knot Clip Earrings", note: "big enough to skip the necklace", rent: 85, own: 420, img: coral },
-  { no: "042", name: "Crystal Waterfall Collar", note: "white shirt, nothing else, trust me", rent: 140, own: 680, img: yellow },
-  { no: "043", name: "Resin Cabochon Cuff", note: "the one they will ask about", rent: 95, own: 460, img: p3.url, bw: true },
-  { no: "044", name: "Baroque Pearl Drops", note: "pearls, but make them odd", rent: 110, own: 540, img: p5.url, bw: true },
+  { no: "041", name: "Gilt Knot Clip Earrings", note: "big enough to skip the necklace", key: "skip", rent: 85, own: 420, img: coral },
+  { no: "042", name: "Crystal Waterfall Collar", note: "white shirt, nothing else, trust me", key: "trust me", rent: 140, own: 680, img: yellow },
+  { no: "043", name: "Resin Cabochon Cuff", note: "the one they will ask about", key: "ask", rent: 95, own: 460, img: p3.url, bw: true },
+  { no: "044", name: "Baroque Pearl Drops", note: "pearls, but make them odd", key: "odd", rent: 110, own: 540, img: p5.url, bw: true },
 ];
 const edits = [
   { t: "A little dangerous", n: "08", s: "Sharp silhouettes, heavy gilt, and pieces that don't apologize.", img: p2.url },
@@ -68,7 +68,10 @@ function Index() {
             <span className="absolute -top-2 right-0 z-10 font-serif text-[80px] italic text-bone mix-blend-difference leading-none md:-right-10 md:text-[170px]">edit</span>
             <div className="relative aspect-[4/5] overflow-hidden bg-ink md:aspect-[5/4]">
               <img src={p5.url} alt="Sculptural diamond collar on a neckline" className="grain h-full w-full object-cover" />
-              <p className="hand absolute left-[12%] top-[35%] -rotate-6 text-6xl text-editorial md:text-9xl">look what<br />&nbsp;&nbsp;I found</p>
+              <div className="absolute left-[8%] top-[28%] text-[#C81D25]" style={{ transform: "rotate(-8deg) skewX(-8deg)", opacity: 0.92 }}>
+                <p className="script text-7xl leading-[0.9] md:text-[150px]">look what<br /><span className="ml-16 inline-block">I <span className="relative inline-block">found<Under double className="-bottom-1 h-5" /></span></span></p>
+                <Arrow className="absolute -right-16 top-full h-24 w-24 md:-right-24 md:h-32 md:w-32" d="M5 10 C 50 0, 85 30, 88 78" />
+              </div>
               <p className="micro absolute bottom-4 left-4 text-bone/70">No. 01 — the collar nobody wanted, until now</p>
             </div>
           </div>
@@ -86,10 +89,15 @@ function Index() {
       {/* STYLE */}
       <section className="relative overflow-hidden border-b border-ink bg-linen py-20 text-center">
         <div className="relative mx-auto max-w-[1400px] px-5">
-          <p className="font-serif text-6xl tracking-[0.1em] text-ink/10 md:text-9xl">STATUS</p>
-          <div className="absolute left-1/2 top-[30%] h-[3px] w-[60%] -translate-x-1/2 -rotate-2 bg-editorial" />
-          <h2 className="font-serif text-7xl font-medium text-editorial md:text-[160px] md:leading-none">STYLE</h2>
-          <p className="hand mt-6 -rotate-6 text-3xl text-pen md:absolute md:bottom-8 md:left-10 md:mt-0">look what<br />I chose.</p>
+          <p className="relative inline-block font-serif text-2xl uppercase tracking-[0.3em] text-ink/25 md:text-5xl">
+            Something to prove
+            <Strike className="-inset-x-3 top-1/2 h-5 w-[calc(100%+1.5rem)] -translate-y-1/2 -rotate-1 text-editorial" />
+          </p>
+          <h2 className="mt-2 font-serif text-7xl font-bold text-editorial md:text-[160px] md:leading-none">STYLE</h2>
+          <div className="relative mt-6 inline-flex items-start gap-2 text-pen md:absolute md:bottom-8 md:left-10 md:mt-0">
+            <p className="hand rotate-[-5deg] text-left text-4xl leading-tight">look what<br />I <Mark color="text-pen" double>chose.</Mark></p>
+            <Arrow className="mt-6 h-16 w-16 max-md:hidden" d="M5 40 C 40 10, 75 15, 92 40" />
+          </div>
           <p className="mx-auto mt-6 max-w-[220px] text-left text-sm italic text-charcoal md:absolute md:right-10 md:top-1/2 md:mt-0">Status says, "Look what I can afford." Style says, "Look what I chose."</p>
         </div>
       </section>
@@ -99,19 +107,26 @@ function Index() {
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div className="flex items-end gap-4">
             <h2 className="font-serif text-7xl leading-none md:text-9xl">NEW <em className="text-6xl md:text-8xl">finds</em></h2>
-            <span className="hand -rotate-12 text-3xl text-pen">just<br />in!</span>
+            <div className="relative -rotate-12 text-pen">
+              <span className="hand block text-3xl leading-none">just in!</span>
+              <Arrow className="ml-6 h-12 w-12 rotate-[20deg]" d="M10 10 C 40 5, 70 30, 88 78" />
+            </div>
           </div>
           <a href="#archive" className="link-line">Shop all new finds →</a>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {finds.map((f) => (
+          {finds.map((f, i) => (
             <article key={f.no}>
               <div className="relative aspect-[3/4] overflow-hidden bg-ink">
                 <img src={f.img} alt={f.name} loading="lazy" className={`h-full w-full object-cover transition duration-700 hover:scale-105 ${f.bw ? "grain" : ""}`} />
                 <span className="micro absolute left-3 top-3 bg-bone px-2 py-1">No. {f.no}</span>
               </div>
               <h3 className="mt-4 font-serif text-xl">{f.name}</h3>
-              <p className="hand mt-1 text-2xl text-editorial">{f.note}</p>
+              <p className="hand mt-2 text-2xl leading-snug text-editorial" style={{ transform: `rotate(${["-2.5deg", "-1.2deg", "-3.1deg", "-1.8deg"][i]})`, marginLeft: [2, 8, 0, 5][i] }}>
+                {f.note.split(f.key).map((part, j, arr) => (
+                  <span key={j}>{part}{j < arr.length - 1 && <Mark>{f.key}</Mark>}</span>
+                ))}
+              </p>
               <div className="mt-3 flex items-center justify-between border-t border-ink pt-3">
                 <span className="micro text-charcoal">Rent ${f.rent} · Own ${f.own}</span>
                 <button onClick={() => add(f)} className="micro border-b border-ink hover:text-editorial">Add to bag</button>
@@ -124,7 +139,7 @@ function Index() {
       {/* EDITS */}
       <section id="edits" className="border-t border-ink bg-ivory">
         <div className="grid border-b border-ink md:grid-cols-2">
-          <div className="px-5 py-10 md:px-10"><h2 className="hand -rotate-3 text-8xl text-editorial md:text-9xl">the edits</h2></div>
+          <div className="px-5 py-10 md:px-10"><h2 className="script relative -rotate-6 pl-4 text-[110px] leading-none text-editorial md:text-[170px]">the edits<svg viewBox="0 0 400 40" className="absolute -bottom-4 left-24 h-8 w-[70%]" aria-hidden><path fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" d="M2 30 C 100 10, 200 34, 300 18 S 380 6, 398 2" /></svg></h2></div>
           <div className="flex items-center border-t border-ink px-5 py-10 md:border-l md:border-t-0 md:px-10">
             <p className="max-w-md font-serif text-2xl italic leading-snug">Shop by how you want to feel, where you're going, or what you're daring yourself to wear.</p>
           </div>
@@ -150,8 +165,15 @@ function Index() {
         <div className="relative mx-auto max-w-[1400px]">
           <p className="max-w-[240px] text-sm italic text-charcoal md:absolute md:right-0 md:top-0">For the woman who'd rather be asked than recognized, and who is delighted when another woman recognizes the magic.</p>
           <p className="mt-10 font-serif text-4xl italic md:ml-4 md:text-6xl">Wear the</p>
-          <h2 className="font-serif text-[22vw] font-medium leading-[0.85] tracking-tight md:text-[220px]">STORY.</h2>
-          <p className="text-right font-serif text-4xl italic md:mr-[20%] md:text-6xl">not the logo.</p>
+          <div className="relative inline-block">
+            <h2 className="font-serif text-[22vw] font-medium leading-[0.85] tracking-tight md:text-[220px]">STORY.</h2>
+            <Loop className="-inset-x-6 -inset-y-4 h-[calc(100%+2rem)] w-[calc(100%+3rem)] text-editorial" />
+            <div className="absolute -right-4 top-full flex translate-x-full items-start gap-1 text-editorial max-md:hidden">
+              <Arrow className="h-20 w-20 -scale-y-100" d="M90 90 C 40 95, 15 70, 12 20" />
+              <p className="hand mt-10 -rotate-6 whitespace-nowrap text-3xl">the meaning,<br />&nbsp;&nbsp;the story</p>
+            </div>
+          </div>
+          <p className="text-right font-serif text-4xl italic md:mr-[20%] md:text-6xl">not the <span className="relative inline-block">logo.<svg viewBox="0 0 100 40" preserveAspectRatio="none" className="absolute inset-x-0 top-1/2 h-4 w-full -translate-y-1/2 text-editorial" aria-hidden><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M2 24 C 30 18, 60 22, 98 14" /></svg></span></p>
           <p className="micro mt-10">If you know, you know.</p>
         </div>
       </section>
@@ -175,13 +197,18 @@ function Index() {
           ))}
         </div>
         <div className="flex items-center justify-center">
-          <div className="paper w-full max-w-md rotate-2 bg-blush p-8 text-editorial">
+          <div className="paper-grain w-full max-w-md rotate-[-1.5deg] bg-blush p-8 text-editorial" style={{ boxShadow: "14px 18px 30px -14px oklch(0.25 0.03 20 / 0.4)" }}>
             <p className="font-serif text-6xl">NOTE</p>
-            <div className="mt-6 grid grid-cols-2 gap-6">
-              <p className="border-b border-editorial pb-1 micro">To: <span className="hand text-2xl normal-case tracking-normal">You</span></p>
-              <p className="border-b border-editorial pb-1 micro">From: <span className="hand text-2xl normal-case tracking-normal">Tinamarie</span></p>
+            <div className="mt-6 space-y-5">
+              <p className="relative h-10 border-b border-editorial/50 micro"><span className="absolute bottom-1">To:</span><span className="hand absolute -bottom-1 left-16 rotate-[-2deg] text-3xl normal-case tracking-normal text-ink">You</span></p>
+              <p className="relative h-10 border-b border-editorial/50 micro"><span className="absolute bottom-1">From:</span><span className="hand absolute -bottom-0.5 left-16 rotate-[1.5deg] text-3xl normal-case tracking-normal text-ink">Tinamarie</span></p>
             </div>
-            <p className="hand mt-8 -rotate-2 text-4xl leading-tight">tell me where you're going. I'll find what you wear. xx</p>
+            <p className="hand mt-10 rotate-[-2deg] text-[34px] leading-[1.35]">
+              tell me where<br />
+              <span className="inline-block translate-x-3 rotate-[1deg]">you're going.</span><br />
+              I'll find <Mark>what you wear.</Mark>{" "}
+              <svg viewBox="0 0 60 30" className="inline h-8 w-14 align-middle" aria-hidden><g fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><path d="M6 6 C 12 14, 18 20, 24 26 M24 5 C 18 12, 11 20, 5 27" /><path d="M34 7 C 40 14, 45 19, 52 24 M51 6 C 46 13, 40 20, 33 26" /></g></svg>
+            </p>
             <button onClick={() => setDrawer("styling")} className="link-line mt-10">Book a session →</button>
           </div>
         </div>
@@ -195,7 +222,10 @@ function Index() {
             <div className="flex flex-col border-ink md:border-r">
               <div className="p-8">
                 <div className="aspect-[4/5] overflow-hidden bg-ink"><img src={p3.url} alt="The eye, not the face" loading="lazy" className="grain h-full w-full object-cover" /></div>
-                <p className="hand mt-4 -rotate-3 text-right text-4xl text-pen">the eye, not the face</p>
+                <div className="relative mt-2 flex items-end justify-end gap-2 text-pen">
+                  <Arrow className="h-16 w-16 -scale-x-100 rotate-180" d="M10 90 C 20 50, 50 20, 88 12" />
+                  <p className="hand rotate-[-4deg] text-3xl">the eye, not the face</p>
+                </div>
               </div>
               <button className="micro mt-auto border-t border-ink py-4 hover:bg-ink hover:text-bone">Read her story →</button>
             </div>
@@ -226,12 +256,12 @@ function Index() {
       <section className="mx-auto grid max-w-[1400px] items-center gap-16 px-5 py-24 md:grid-cols-2">
         <div className="flex justify-center">
           <div className="paper relative aspect-[5/7] w-64 -rotate-6 border border-ink/20 bg-ivory p-4 text-editorial">
-            <div className="absolute left-4 top-3 text-center font-serif leading-none"><div className="text-3xl">F</div><div className="text-xl">♦</div></div>
+            <div className="absolute left-4 top-3 text-center font-serif leading-none"><div className="text-3xl">A</div><div className="text-xl">♦</div></div>
             <div className="absolute bottom-3 right-4 rotate-180 text-center font-serif leading-none"><div className="text-3xl">A</div><div className="text-xl">♦</div></div>
-            <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
-              <p className="hand text-3xl text-ink">no logo,</p>
+            <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
+              <p className="ink-raw -rotate-6 text-5xl text-ink">no logo,</p>
               <span className="text-6xl">♦</span>
-              <p className="hand text-3xl text-ink">all presence.</p>
+              <p className="ink-raw rotate-[-3deg] translate-x-2 text-5xl text-ink"><Mark color="text-ink">all presence.</Mark></p>
             </div>
           </div>
         </div>
@@ -267,7 +297,7 @@ function Index() {
           ))}
         </div>
         <div className="mx-auto mt-16 flex max-w-[1400px] flex-wrap items-end justify-between gap-4 border-t border-bone/20 pt-6">
-          <p className="hand -rotate-2 text-4xl text-editorial">if you know, you know</p>
+          <p className="script relative -rotate-3 pb-4 text-5xl text-editorial">if you know, you know<svg viewBox="0 0 300 30" className="absolute -bottom-1 left-6 h-6 w-[80%]" aria-hidden><path fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" d="M2 18 C 60 8, 120 26, 190 14 S 270 4, 296 12 C 285 20, 270 24, 260 18" /></svg></p>
           <p className="micro text-bone/50">© 2026 Finders Edit. All rights reserved.</p>
         </div>
       </footer>
