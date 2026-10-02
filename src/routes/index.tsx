@@ -398,7 +398,7 @@ function StylingForm({ onDone }: { onDone: () => void }) {
 
 /* Hand-drawn pen marks */
 const ink = { fill: "none", stroke: "currentColor", strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
-function Under({ className = "", double = false }: { className?: string; double?: boolean }) {
+function Under({ className = "", double = false }: { className?: string; double?: boolean | undefined }) {
   return (
     <svg viewBox="0 0 200 20" preserveAspectRatio="none" className={`pointer-events-none absolute left-0 w-full ${className}`} aria-hidden>
       <path {...ink} strokeWidth="1.6" d="M2 8 C 40 5, 90 9, 130 6 S 185 7, 198 5" />
@@ -430,6 +430,6 @@ function Strike({ className = "" }: { className?: string }) {
     </svg>
   );
 }
-function Mark({ children, color = "text-editorial", double }: { children: ReactNode; color?: string; double?: boolean }) {
+function Mark({ children, color = "text-editorial", double }: { children: ReactNode; color?: string; double?: boolean | undefined }) {
   return <span className="relative inline-block">{children}<Under double={double} className={`-bottom-2 h-3 ${color}`} /></span>;
 }
