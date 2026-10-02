@@ -96,7 +96,7 @@ function Index() {
           <h2 className="mt-2 font-serif text-7xl font-bold text-editorial md:text-[160px] md:leading-none">STYLE</h2>
           <div className="relative mt-6 inline-flex items-start gap-2 text-pen md:absolute md:bottom-8 md:left-10 md:mt-0">
             <p className="hand rotate-[-5deg] text-left text-4xl leading-tight">look what<br />I <Mark color="text-pen" double>chose.</Mark></p>
-            <Arrow className="mt-6 h-16 w-16 max-md:hidden" d="M5 40 C 40 10, 75 15, 92 40" />
+            <Arrow className="mt-6 h-16 w-16 max-md:hidden" d="M5 20 C 40 0, 80 25, 88 78" />
           </div>
           <p className="mx-auto mt-6 max-w-[220px] text-left text-sm italic text-charcoal md:absolute md:right-10 md:top-1/2 md:mt-0">Status says, "Look what I can afford." Style says, "Look what I chose."</p>
         </div>
@@ -223,7 +223,7 @@ function Index() {
               <div className="p-8">
                 <div className="aspect-[4/5] overflow-hidden bg-ink"><img src={p3.url} alt="The eye, not the face" loading="lazy" className="grain h-full w-full object-cover" /></div>
                 <div className="relative mt-2 flex items-end justify-end gap-2 text-pen">
-                  <Arrow className="h-16 w-16 -scale-x-100 rotate-180" d="M10 90 C 20 50, 50 20, 88 12" />
+                  <Arrow className="h-16 w-16 -scale-x-100 rotate-180" d="M15 15 C 20 55, 50 80, 88 78" />
                   <p className="hand rotate-[-4deg] text-3xl">the eye, not the face</p>
                 </div>
               </div>
