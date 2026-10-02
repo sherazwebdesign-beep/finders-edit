@@ -169,7 +169,7 @@ function Index() {
             <h2 className="font-serif text-[22vw] font-medium leading-[0.85] tracking-tight md:text-[220px]">STORY.</h2>
             <Loop className="-inset-x-6 -inset-y-4 h-[calc(100%+2rem)] w-[calc(100%+3rem)] text-editorial" />
             <div className="absolute -right-4 top-full flex translate-x-full items-start gap-1 text-editorial max-md:hidden">
-              <Arrow className="h-20 w-20 -scale-y-100" d="M90 90 C 40 95, 15 70, 12 20" />
+              <Arrow className="h-20 w-20 -scale-y-100" d="M12 10 C 15 60, 50 85, 88 78" />
               <p className="hand mt-10 -rotate-6 whitespace-nowrap text-3xl">the meaning,<br />&nbsp;&nbsp;the story</p>
             </div>
           </div>
