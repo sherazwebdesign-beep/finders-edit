@@ -68,7 +68,7 @@ function Index() {
             <span className="absolute -top-2 right-0 z-10 font-serif text-[80px] italic text-bone mix-blend-difference leading-none md:-right-10 md:text-[170px]">edit</span>
             <div className="relative aspect-[4/5] overflow-hidden bg-ink md:aspect-[5/4]">
               <img src={p5.url} alt="Sculptural diamond collar on a neckline" className="grain h-full w-full object-cover" />
-              <div className="absolute left-[8%] top-[28%] text-[#C81D25]" style={{ transform: "rotate(-8deg) skewX(-8deg)", opacity: 0.92 }}>
+              <div className="absolute left-[8%] top-[28%] text-editorial" style={{ transform: "rotate(-8deg) skewX(-8deg)", opacity: 0.92 }}>
                 <p className="script text-7xl leading-[0.9] md:text-[150px]">look what<br /><span className="ml-16 inline-block">I <span className="relative inline-block">found<Under double className="-bottom-1 h-5" /></span></span></p>
                 <Arrow className="absolute -right-16 top-full h-24 w-24 md:-right-24 md:h-32 md:w-32" d="M5 10 C 50 0, 85 30, 88 78" />
               </div>
