@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { BagProvider, BagDrawer } from "../lib/bag";
+import { SiteHeader, SiteFooter } from "../components/SiteChrome";
 
 function NotFoundComponent() {
   return (
@@ -121,8 +123,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <BagProvider>
+        <SiteHeader />
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+        <SiteFooter />
+        <BagDrawer />
+      </BagProvider>
     </QueryClientProvider>
   );
 }
