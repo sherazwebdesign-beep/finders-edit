@@ -125,3 +125,27 @@ export const destinations = ["Somewhere Warm", "Rome Rooftop", "Paris After Dark
 export const types = ["Earrings", "Necklaces & Collars", "Cuffs & Bracelets", "Brooches & Objects"];
 
 export const getPiece = (id: string) => pieces.find((p) => p.id === id);
+
+export const colors = ["Gold", "Crystal & Clear", "Black & Onyx", "Pearl & Ivory"];
+const colorById: Record<string, string> = {
+  "gilt-knot-clips": "Gold", "crystal-waterfall-collar": "Crystal & Clear", "resin-cabochon-cuff": "Black & Onyx",
+  "baroque-pearl-drops": "Pearl & Ivory", "hammered-sun-brooch": "Gold", "onyx-deco-collar": "Black & Onyx",
+  "salt-crystal-drops": "Crystal & Clear", "ivory-stack-bangles": "Pearl & Ivory",
+};
+export const colorOf = (p: Piece) => colorById[p.id] ?? "Gold";
+export const taglines: Record<string, string> = {
+  "gilt-knot-clips": "A 1970s gilt knot, sized to replace the necklace entirely.",
+  "crystal-waterfall-collar": "A cascade of graduated crystal that sits like a dress of its own.",
+  "resin-cabochon-cuff": "Poured marbled resin on gilt, from a Montparnasse studio lot.",
+  "baroque-pearl-drops": "Irregular baroque pearls, hand-knotted in 1950s Italy.",
+  "hammered-sun-brooch": "An unsigned studio sun, hammered by hand around 1970.",
+  "onyx-deco-collar": "Art deco glass onyx, built like armor in 1930s Czechoslovakia.",
+  "salt-crystal-drops": "Brazilian crystal drops that hold candlelight like water.",
+  "ivory-stack-bangles": "Three graduated resin bangles, kept together since 1975.",
+};
+export const weights: Record<string, string> = {
+  "gilt-knot-clips": "Medium — about 14g each", "crystal-waterfall-collar": "Light for its scale — about 48g",
+  "resin-cabochon-cuff": "Substantial — about 62g", "baroque-pearl-drops": "Light — about 9g each",
+  "hammered-sun-brooch": "Light — about 20g", "onyx-deco-collar": "Medium — about 55g",
+  "salt-crystal-drops": "Feather-light — about 6g each", "ivory-stack-bangles": "About 70g as a set",
+};
