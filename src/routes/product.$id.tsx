@@ -40,12 +40,13 @@ function addDays(iso: string, n: number) {
 
 function Product() {
   const { id } = Route.useLoaderData();
-  const p = getPiece(id)!;
+  const p = getPiece(id);
   const { add } = useBag();
   const [img, setImg] = useState(0);
   const [days, setDays] = useState<4 | 8>(4);
   const [start, setStart] = useState("");
   const [open, setOpen] = useState<string | null>("Measurements");
+  if (!p) return null;
   const gallery = [p.img, p.altImg];
   const more = pieces.filter((x) => x.id !== p.id).slice(0, 4);
 
@@ -119,14 +120,14 @@ function Product() {
           <div className="mt-4 border-l-2 border-editorial pl-4">
             <p className="font-serif text-lg italic">Vintage, with a life before yours.</p>
             <p className="mt-1 text-sm text-charcoal">This piece may show signs of age and previous wear. Please read its individual condition notes and view the detail photographs before reserving.</p>
-            <div className="mt-2 flex gap-6">
+            <div className="mt-2 flex flex-wrap gap-6">
               <Link to="/vintage-promise" className="link-line">Our Vintage Promise</Link>
               <Link to="/contact" search={{ topic: "A Piece", ref: `No. ${p.no} — ${p.name}` }} className="link-line">Ask About This Piece</Link>
             </div>
           </div>
 
           {/* NOTE */}
-          <div className="paper-grain mt-10 rotate-[-1.5deg] bg-blush p-7 text-editorial" style={{ boxShadow: "14px 18px 30px -14px oklch(0.25 0.03 20 / 0.4)" }}>
+          <div className="paper paper-grain mt-10 rotate-[-1.5deg] bg-blush p-7 text-editorial" >
             <p className="micro">Note from Tinamarie</p>
             <p className="mt-1 font-serif text-3xl">Why I picked it</p>
             <p className="hand mt-4 text-[28px] leading-[1.35]">{p.tinamarie}</p>

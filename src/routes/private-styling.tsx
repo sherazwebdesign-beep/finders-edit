@@ -60,7 +60,7 @@ function Styling() {
         </div>
       </section>
 
-      <section className="border-t border-ink bg-ivory">
+      <section id="styling-dossier" className="scroll-mt-20 border-t border-ink bg-ivory">
         <div className="mx-auto max-w-[1000px] px-5 py-20">
           <div className="flex items-end justify-between">
             <h2 className="font-serif text-5xl md:text-6xl">The <em>dossier</em></h2>
@@ -77,12 +77,12 @@ function Styling() {
               <Link to="/archive" className="link-line mt-8 inline-block">Explore the archive meanwhile →</Link>
             </div>
           ) : (
-            <form onSubmit={(e) => { e.preventDefault(); setSent(true); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="mt-12 space-y-10">
-              <div className="grid gap-4 sm:grid-cols-3">
+            <form onSubmit={(e) => { e.preventDefault(); setSent(true); document.getElementById("styling-dossier")?.scrollIntoView({ behavior: "smooth", block: "start" }); }} className="mt-12 space-y-10">
+              <div className="grid grid-cols-3 gap-3">
                 {slots.map((s, i) => (
                   <label key={s} className="block cursor-pointer">
                     <div className="flex aspect-[3/4] items-center justify-center overflow-hidden border border-dashed border-ink bg-bone hover:bg-linen">
-                      {imgs[i] ? <img src={imgs[i]!} alt="" className="h-full w-full object-cover" /> : <span className="micro px-4 text-center text-charcoal">+ Upload<br />{s}</span>}
+                      {imgs[i] ? <img src={imgs[i] ?? ""} alt="" className="h-full w-full object-cover" /> : <span className="micro px-4 text-center text-charcoal">+ Upload<br />{s}</span>}
                     </div>
                     <input type="file" accept="image/*" className="sr-only" onChange={(e) => {
                       const f = e.target.files?.[0];
