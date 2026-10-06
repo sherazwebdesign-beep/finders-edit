@@ -37,7 +37,6 @@ function Contact() {
           <p className="hand mt-8 -rotate-3 text-3xl text-editorial">questions, press, or a piece you <Mark>can't stop thinking about</Mark></p>
           <div className="mt-12 space-y-4 border-t border-ink pt-6">
             <p className="flex justify-between"><span className="micro">Instagram</span><a href="https://instagram.com/findersedit" target="_blank" rel="noreferrer" className="font-serif text-lg hover:text-editorial">@FindersEdit</a></p>
-            <p className="flex justify-between border-t border-ink pt-4"><span className="micro">Email</span><a href="mailto:hello@findersedit.com" className="font-serif text-lg hover:text-editorial">hello@findersedit.com</a></p>
             <p className="flex justify-between border-t border-ink pt-4"><span className="micro">Web</span><span className="font-serif text-lg">FindersEdit.com</span></p>
           </div>
         </div>
@@ -52,7 +51,7 @@ function Contact() {
             <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="space-y-7">
               <label className="block"><span className="micro">Name</span><input required className={field} /></label>
               <label className="block"><span className="micro">Email</span><input required type="email" className={field} /></label>
-              <label className="block"><span className="micro">Topic</span>
+              <label className="block"><span className="micro">What can we help with?</span>
                 <select defaultValue={topics.includes(topic) ? topic : topics[0]} className={field}>
                   {topics.map((t) => <option key={t}>{t}</option>)}
                 </select>

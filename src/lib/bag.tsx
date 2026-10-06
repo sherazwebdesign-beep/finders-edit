@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 import type { Piece } from "@/lib/pieces";
 
-export type BagLine = { piece: Piece; mode: "Rent" | "Own"; days?: 4 | 8; date?: string };
+export type BagLine = { piece: Piece; mode: "Rent" | "Own"; days?: 4 | 8 | undefined; date?: string | undefined };
 
 type BagCtx = {
   bag: BagLine[];
@@ -56,7 +56,7 @@ export function BagDrawer() {
                     {b.mode === "Rent" && (b.days || b.date) && (
                       <p className="micro mt-1 text-charcoal">{b.days ?? 4} days{b.date ? ` · from ${b.date}` : ""}</p>
                     )}
-                    <div className="mt-2 flex gap-3">
+                    <div className="mt-2 flex flex-wrap gap-3">
                       {(["Rent", "Own"] as const).map((m) => (
                         <button key={m} onClick={() => setMode(i, m)} className={`micro border px-2 py-1 ${b.mode === m ? "bg-ink text-bone" : "border-ink"}`}>
                           {m} ${m === "Rent" ? b.piece.rent : b.piece.own}

@@ -50,18 +50,18 @@
 
 :root {
   --radius: 0px;
-  --bone: oklch(0.966 0.007 85);
-  --ivory: oklch(0.982 0.005 80);
+  --bone: #F6F4EF;
+  --ivory: #FAF8F5;
   --linen: oklch(0.94 0.009 80);
-  --taupe: oklch(0.87 0.022 75);
-  --ink: oklch(0.18 0 0);
+  --taupe: #DFD5C6;
+  --ink: #111111;
   --charcoal: oklch(0.4 0.006 70);
-  --editorial: oklch(0.5 0.19 25);
+  --editorial: #C81D25;
   --burgundy: oklch(0.43 0.13 25);
-  --pen: oklch(0.36 0.08 255);
+  --pen: #1E3F66;
   --gold: oklch(0.62 0.07 80);
-  --blush: oklch(0.88 0.045 10);
-  --pitch: oklch(0.14 0 0);
+  --blush: #F3CFD4;
+  --pitch: #0D0D0D;
 
   --background: var(--bone);
   --foreground: var(--ink);
@@ -136,3 +136,11 @@
 @utility paper {
   box-shadow: var(--shadow-paper);
 }
+
+@layer base {
+  html { scroll-padding-top: 100px; }
+  body { overflow-x: clip; }
+  input, textarea, select { min-width: 0; }
+  button, a, input, select, textarea { letter-spacing: 0; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }

@@ -45,7 +45,9 @@ function Archive() {
   const s = Route.useSearch();
   const navigate = Route.useNavigate();
   const { add } = useBag();
-  const view = tabs.some((t) => t.v === s.view) ? s.view : "all";
+  const alias: Record<string, string> = { "new-finds": "new", "the-edits": "edits", "lust-list": "lust" };
+  const requested = alias[s.view] ?? s.view;
+  const view = tabs.some((t) => t.v === requested) ? requested : "all";
 
   const list = pieces.filter((p) =>
     (view === "all" || p.views.includes(view as "new" | "edits" | "lust")) &&
@@ -54,7 +56,7 @@ function Archive() {
     (!s.color || colorOf(p) === s.color),
   );
 
-  const set = (k: string, v: string) => navigate({ search: (prev) => ({ ...prev, [k]: v }) });
+  const set = (k: string, v: string) => navigate({ resetScroll: false, search: (prev) => ({ ...prev, [k]: v }) });
   const clear = () => navigate({ search: (prev) => ({ view: prev.view, mood: "", event: "", destination: "", color: "", type: "", mode: "all" }) });
 
   const filters: [string, string, string[]][] = [
@@ -67,7 +69,7 @@ function Archive() {
       <section className="border-b border-ink">
         <div className="relative mx-auto max-w-[1400px] px-5 py-16 md:py-24">
           <p className="micro">Vintage jewelry to rent or own</p>
-          <h1 className="mt-4 font-serif text-[18vw] font-medium leading-[0.85] tracking-tight md:text-[200px]">The Archive</h1>
+          <h1 className="mt-4 font-serif text-6xl font-medium leading-[0.85] tracking-tight md:text-9xl">The Archive</h1>
           <div className="mt-6 grid gap-8 md:grid-cols-[1fr_auto]">
             <p className="max-w-xl font-serif text-2xl italic leading-snug">Pieces with a point of view. Explore vintage jewelry chosen for its presence, personality, and the possibilities it brings to what you already wear.</p>
             <div className="relative flex items-start gap-1 text-editorial">
@@ -80,7 +82,7 @@ function Archive() {
 
       {/* TABS */}
       <div className="border-b border-ink">
-        <div className="mx-auto flex max-w-[1400px] flex-wrap gap-x-8 gap-y-4 px-5 py-5">
+        <div className="mx-auto flex max-w-[1400px] flex-wrap gap-x-12 gap-y-8 px-5 py-5">
           {tabs.map((t) => (
             <button key={t.v} onClick={() => set("view", t.v)} className={`relative micro ${view === t.v ? "text-editorial" : "hover:text-editorial"}`}>
               {t.label}
@@ -96,9 +98,9 @@ function Archive() {
 
       {/* FILTER BAR */}
       <div className="border-y border-ink">
-        <div className="mx-auto grid max-w-[1400px] grid-cols-2 md:grid-cols-6">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-2 lg:grid-cols-6">
           {filters.map(([k, label, opts]) => (
-            <label key={k} className="block border-b border-r border-ink px-4 py-3 md:border-b-0">
+            <label key={k} className="block border-b border-r border-ink px-4 py-3 lg:border-b-0">
               <span className="micro text-charcoal">{label}</span>
               <select value={(s as Record<string, string>)[k]} onChange={(e) => set(k, e.target.value)} className="mt-1 block w-full bg-transparent font-serif text-base outline-none">
                 <option value="">All</option>
@@ -106,10 +108,10 @@ function Archive() {
               </select>
             </label>
           ))}
-          <div className="col-span-2 flex items-center px-4 py-3 md:col-span-1">
+          <div className="col-span-2 flex items-center px-4 py-3 lg:col-span-1">
             <div className="grid w-full grid-cols-3 border border-ink">
               {[["all", "All"], ["rent", "Rent"], ["own", "Own"]].map(([v, l]) => (
-                <button key={v} onClick={() => set("mode", v)} className={`micro py-2 ${s.mode === v ? "bg-ink text-bone" : "hover:text-editorial"}`}>{l}</button>
+                <button key={v} onClick={() => set("mode", v ?? "all")} className={`micro py-2 ${s.mode === v ? "bg-ink text-bone" : "hover:text-editorial"}`}>{l}</button>
               ))}
             </div>
           </div>
@@ -122,7 +124,7 @@ function Archive() {
         {list.length === 0 ? (
           <div className="border border-ink p-12 text-center">
             <p className="font-serif text-3xl italic">No pieces in this edit right now.</p>
-            <p className="hand mt-3 text-3xl text-editorial">try another filter, or let us help you find your piece.</p>
+            <p className="hand mt-3 text-3xl text-editorial">Try another filter, or let us help you find your piece.</p>
             <div className="mt-8 flex justify-center gap-6">
               <button onClick={clear} className="link-line">Clear Filters</button>
               <Link to="/private-styling" className="link-line">Ask for Styling</Link>
@@ -142,7 +144,7 @@ function Archive() {
                 <p className="hand mt-2 text-2xl leading-snug text-editorial" style={{ transform: `rotate(${[-2.5, -1.2, -3, -1.8][i % 4]}deg)` }}>
                   {p.note.split(p.key).map((part, j, arr) => <span key={j}>{part}{j < arr.length - 1 && <Mark>{p.key}</Mark>}</span>)}
                 </p>
-                <div className="mt-3 flex items-center justify-between border-t border-ink pt-3">
+                <div className="mt-3 flex flex-wrap gap-3 items-center justify-between border-t border-ink pt-3">
                   <span className="micro">
                     <span className={s.mode === "own" ? "text-charcoal/40" : s.mode === "rent" ? "text-editorial" : "text-charcoal"}>Rent ${p.rent}</span>
                     <span className="text-charcoal"> · </span>
