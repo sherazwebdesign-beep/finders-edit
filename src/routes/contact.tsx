@@ -15,6 +15,8 @@ export const Route = createFileRoute("/contact")({
   })),
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Contact — Finders Edit" },
       { name: "description", content: "A question about a piece, help with a rental, or a look you want to bring together. Write to Finders Edit." },
       { property: "og:title", content: "Tell us what you have in mind — Finders Edit" },
@@ -53,8 +55,8 @@ function Contact() {
             </div>
           ) : (
             <form onSubmit={async (e) => { e.preventDefault(); const data = new FormData(e.currentTarget); setBusy(true); setError(""); try { await submitRequest({ data: { kind: "contact", name: String(data.get("name")), email: String(data.get("email")), details: { topic: String(data.get("topic")), reference: String(data.get("reference")), message: String(data.get("message")) }, images: [], website: "" } }); setSent(true); } catch { setError("Your note could not be saved. Please try again."); } finally { setBusy(false); } }} className="space-y-7">
-              <label className="block"><span className="micro">Name</span><input name="name" required className={field} /></label>
-              <label className="block"><span className="micro">Email</span><input name="email" required type="email" className={field} /></label>
+              <label className="block"><span className="micro">Name</span><input name="name" maxLength={120} required className={field} /></label>
+              <label className="block"><span className="micro">Email</span><input name="email" maxLength={254} required type="email" className={field} /></label>
               <label className="block"><span className="micro">What can we help with?</span>
                 <select name="topic" key={topic} defaultValue={topics.includes(topic) ? topic : topics[0]} className={field}>
                   {topics.map((t) => <option key={t}>{t}</option>)}
@@ -62,7 +64,7 @@ function Contact() {
               </label>
               <label className="block"><span className="micro">Order or reservation number (optional)</span><input name="reference" key={ref} defaultValue={ref} className={field} /></label>
               <label className="block"><span className="micro">Message</span>
-                <textarea name="message" required rows={5} className="mt-2 w-full border border-ink bg-bone p-3 font-serif outline-none focus:border-editorial" />
+                <textarea maxLength={6000} name="message" required rows={5} className="mt-2 w-full border border-ink bg-bone p-3 font-serif outline-none focus:border-editorial" />
               </label>
               {error && <p role="alert" className="text-editorial">{error}</p>}
               <p className="text-sm text-charcoal">Your details are used to respond to this note and are stored privately.</p>

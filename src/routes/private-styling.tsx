@@ -8,6 +8,8 @@ import { Arrow, Mark } from "@/lib/pen";
 export const Route = createFileRoute("/private-styling")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Private Styling with Tinamarie — Finders Edit" },
       { name: "description", content: "Tell me where you are going. Send three images and receive a personal edit of vintage jewelry from the archive." },
       { property: "og:title", content: "Private Styling — Finders Edit" },
@@ -99,8 +101,8 @@ function Styling() {
                 ))}
               </div>
               <div className="grid gap-8 sm:grid-cols-2">
-                <label className="block"><span className="micro">Name</span><input name="name" required className={field} /></label>
-                <label className="block"><span className="micro">Email</span><input name="email" required type="email" className={field} /></label>
+                <label className="block"><span className="micro">Name</span><input name="name" maxLength={120} required className={field} /></label>
+                <label className="block"><span className="micro">Email</span><input name="email" maxLength={254} required type="email" className={field} /></label>
                 <label className="block sm:col-span-2"><span className="micro">Occasion or destination</span><input name="occasion" required className={field} /></label>
                 <label className="block"><span className="micro">Event date</span><input name="eventDate" type="date" className={field} /></label>
                 <label className="block"><span className="micro">Needed-by date</span><input name="neededBy" type="date" className={field} /></label>
@@ -110,12 +112,12 @@ function Styling() {
                 </label>
               </div>
               <label className="block"><span className="micro">What do you have in mind?</span>
-                <textarea name="vision" rows={5} placeholder="Tell Tinamarie where you're going, what you're wearing, and what you wish someone would whisper when you walk in…" className="mt-2 w-full border border-ink bg-bone p-4 font-serif outline-none focus:border-editorial" />
+                <textarea maxLength={6000} name="vision" rows={5} placeholder="Tell Tinamarie where you're going, what you're wearing, and what you wish someone would whisper when you walk in…" className="mt-2 w-full border border-ink bg-bone p-4 font-serif outline-none focus:border-editorial" />
               </label>
               <label className="block"><span className="micro">Any fit preferences, clip-on needs, or materials you avoid?</span><input name="fit" className={field} /></label>
               <p className="text-sm text-charcoal">Three JPG, PNG, or WebP images, up to 5 MB each. Your details and images are stored privately to respond to your styling request.</p>
               {error && <p role="alert" className="text-editorial">{error}</p>}
-              <Button variant="editorial" size="editorial" disabled={busy} className="micro w-full bg-ink py-5 text-bone hover:bg-editorial">{busy ? "Sending…" : "Request Private Styling →"}</Button>
+              <Button type="submit" variant="editorial" size="editorial" disabled={busy} className="micro w-full bg-ink py-5 text-bone hover:bg-editorial">{busy ? "Sending…" : "Request Private Styling →"}</Button>
             </form>
           )}
         </div>

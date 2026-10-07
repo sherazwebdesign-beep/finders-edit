@@ -7,6 +7,8 @@ import { Mark } from "@/lib/pen";
 export const Route = createFileRoute("/how-it-works")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "How Renting Works — Finders Edit" },
       { name: "description", content: "Find it. Wear it. Send it back. How to borrow vintage statement jewelry from the Finders Edit archive." },
       { property: "og:title", content: "How Renting Works — Finders Edit" },
@@ -28,7 +30,7 @@ const faqs = [
   ["How does shipping work?", "Delivery options, costs, arrival timing, and return instructions will be confirmed for your location before you reserve."],
   ["What if something breaks or goes missing?", "Normal vintage wear is expected. If something breaks, tell us right away and do not attempt a repair. We will explain the applicable damage or loss terms before you reserve."],
   ["Can I buy the piece I rented?", "If your piece is available to purchase, contact us before your return deadline to ask about keeping it. Your rental remains due back unless the purchase is confirmed."],
-  ["Can I cancel, extend, or return early?", "Contact us as early as possible and we will do our best to help, We will confirm the cancellation, extension, and early-return terms before you reserve."],
+  ["Can I cancel, extend, or return early?", "Contact us as early as possible and we will do our best to help. We will confirm the cancellation, extension, and early-return terms before you reserve."],
   ["How should I care for my piece?", "Keep jewelry away from water, perfume, lotions, and cleaning products. Store it safely when unworn. Do not attempt repairs or polishing; contact us for advice."],
 ];
 

@@ -20,6 +20,8 @@ export const Route = createFileRoute("/archive")({
   validateSearch: zodValidator(schema),
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "The Archive — Finders Edit" },
       { name: "description", content: "Pieces with a point of view. Browse vintage jewelry by mood, event, destination, color, or piece — to rent or own." },
       { property: "og:title", content: "The Archive — Finders Edit" },

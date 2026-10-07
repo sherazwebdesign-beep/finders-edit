@@ -4,6 +4,8 @@ import { VintagePromise } from "@/components/VintagePromise";
 export const Route = createFileRoute("/vintage-promise")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Our Vintage Promise — Finders Edit" },
       { name: "description", content: "What to expect from pre-loved vintage jewelry: patina, character, and a piece cleaned after every rental." },
       { property: "og:title", content: "Our Vintage Promise — Finders Edit" },
