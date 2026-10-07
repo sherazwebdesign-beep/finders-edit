@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { subscribe, unsubscribe } from '@/lib/requests.functions';
@@ -25,14 +26,14 @@ export function SiteHeader() {
           <Link to="/archive" search={{ view: "the-edits" }} className={navLink}>The Edits</Link>
           <Link to="/archive" search={{ view: "new-finds" }} className={navLink}>New Finds</Link>
         </nav>
-        <button onClick={() => setMenu(!menu)} className="micro xl:hidden">Menu {menu ? "×" : "+"}</button>
+        <Button variant="editorial" size="editorial" onClick={() => setMenu(!menu)} className="micro xl:hidden">Menu {menu ? "×" : "+"}</Button>
         <Link to="/" className="col-start-2 font-serif text-2xl whitespace-nowrap">Finders<em>Edit</em></Link>
         <nav className="flex items-center justify-end gap-4">
           <Link to="/private-styling" className={`${navLink} hidden xl:inline`}>Private Styling</Link>
           <Link to="/how-it-works" className={`${navLink} hidden xl:inline`}>How Renting Works</Link>
           <Link to="/about" className={`${navLink} hidden xl:inline`}>About the Eye</Link>
           <Link to="/contact" className={`${navLink} hidden xl:inline`}>Contact</Link>
-          <button onClick={() => setOpen(true)} className={`${navLink} whitespace-nowrap`}>Bag ({bag.length})</button>
+          <Button variant="editorial" size="editorial" onClick={() => setOpen(true)} className={`${navLink} whitespace-nowrap`}>Bag ({bag.length})</Button>
         </nav>
       </div>
       {menu && (
@@ -86,11 +87,11 @@ export function SiteFooter() {
           <p className="mt-2 text-sm text-bone/80">Notes from the hunt, fresh discoveries, and pieces worth a closer look.</p>
           <form onSubmit={async (e) => { e.preventDefault(); const form = e.currentTarget; setBusy(true); try { const result = await subscribe({ data: { email: String(new FormData(form).get("email")), website: "" } }); setToken(result.token); setStatus("You’re on the list. New finds, first."); form.reset(); } catch { setStatus("We could not add you. Please try again."); } finally { setBusy(false); } }} className="mt-4 flex max-w-sm border-b border-bone/50">
             <input name="email" aria-label="Your email address" type="email" required placeholder="Your email address" className="flex-1 bg-transparent py-2 text-sm outline-none placeholder:text-bone/40" />
-            <button disabled={busy} className="micro shrink-0">{busy ? "Joining…" : "Join the List"}</button>
+            <Button variant="editorial" size="editorial" disabled={busy} className="micro shrink-0">{busy ? "Joining…" : "Join the List"}</Button>
           </form>
           {status && <p role="status" className="mt-3 text-sm">{status}</p>}
-          {token && <button className="link-line mt-2" onClick={async () => { await unsubscribe({ data: { token } }); setToken(""); setStatus("You have been unsubscribed."); }}>Unsubscribe</button>}
-          <div className="mt-6 flex gap-6"><button onClick={() => setTopic("Privacy")} className="micro">Privacy</button><button onClick={() => setTopic("Rental Terms")} className="micro">Rental Terms</button></div>
+          {token && <Button variant="editorial" size="editorial" className="link-line mt-2" onClick={async () => { await unsubscribe({ data: { token } }); setToken(""); setStatus("You have been unsubscribed."); }}>Unsubscribe</Button>}
+          <div className="mt-6 flex gap-6"><Button variant="editorial" size="editorial" onClick={() => setTopic("Privacy")} className="micro">Privacy</Button><Button variant="editorial" size="editorial" onClick={() => setTopic("Rental Terms")} className="micro">Rental Terms</Button></div>
         </div>
         {cols.map(([h, ls]) => (
           <div key={h}>

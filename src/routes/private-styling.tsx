@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { submitRequest } from '@/lib/requests.functions';
@@ -114,7 +115,7 @@ function Styling() {
               <label className="block"><span className="micro">Any fit preferences, clip-on needs, or materials you avoid?</span><input name="fit" className={field} /></label>
               <p className="text-sm text-charcoal">Three JPG, PNG, or WebP images, up to 5 MB each. Your details and images are stored privately to respond to your styling request.</p>
               {error && <p role="alert" className="text-editorial">{error}</p>}
-              <button disabled={busy} className="micro w-full bg-ink py-5 text-bone hover:bg-editorial">{busy ? "Sending…" : "Request Private Styling →"}</button>
+              <Button variant="editorial" size="editorial" disabled={busy} className="micro w-full bg-ink py-5 text-bone hover:bg-editorial">{busy ? "Sending…" : "Request Private Styling →"}</Button>
             </form>
           )}
         </div>

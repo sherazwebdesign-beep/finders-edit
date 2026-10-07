@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
@@ -65,7 +66,7 @@ function Contact() {
               </label>
               {error && <p role="alert" className="text-editorial">{error}</p>}
               <p className="text-sm text-charcoal">Your details are used to respond to this note and are stored privately.</p>
-              <button disabled={busy} className="micro w-full bg-ink py-4 text-bone hover:bg-editorial">{busy ? "Sending…" : "Send a Note →"}</button>
+              <Button variant="editorial" size="editorial" disabled={busy} className="micro w-full bg-ink py-4 text-bone hover:bg-editorial">{busy ? "Sending…" : "Send a Note →"}</Button>
             </form>
           )}
         </div>

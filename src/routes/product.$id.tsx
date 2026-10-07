@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { getPiece, taglines, weights, pieces, availabilityOf } from "@/lib/pieces";
@@ -76,9 +77,9 @@ function Product() {
           </div>
           <div className="mt-3 grid grid-cols-4 gap-3">
             {gallery.map((g, i) => (
-              <button aria-label={i === 0 ? "View sample photograph" : "View editorial inspiration"} aria-pressed={img === i} key={i} onClick={() => setImg(i)} className={`aspect-square overflow-hidden border ${img === i ? "border-editorial border-2" : "border-ink"}`}>
+              <Button variant="editorial" size="editorial" aria-label={i === 0 ? "View sample photograph" : "View editorial inspiration"} aria-pressed={img === i} key={i} onClick={() => setImg(i)} className={`aspect-square overflow-hidden border ${img === i ? "border-editorial border-2" : "border-ink"}`}>
                 <img src={g} alt="" className="h-full w-full object-cover" />
-              </button>
+              </Button>
             ))}
           </div>
           <p className="mt-3 text-sm text-charcoal">Sample photograph and editorial inspiration. Front, back, clasp, detail, and on-body photographs of this exact piece are not yet available.</p>
@@ -101,7 +102,7 @@ function Product() {
               <p className="mt-3 font-serif text-3xl">${p.rent}</p>
               <div className="mt-4 grid grid-cols-2 border border-ink">
                 {([4, 8] as const).map((d) => (
-                  <button key={d} onClick={() => setDays(d)} className={`micro py-2 ${days === d ? "bg-ink text-bone" : ""}`}>{d}-day</button>
+                  <Button variant="editorial" size="editorial" key={d} onClick={() => setDays(d)} className={`micro py-2 ${days === d ? "bg-ink text-bone" : ""}`}>{d}-day</Button>
                 ))}
               </div>
               <label className="mt-3 block">
@@ -110,7 +111,7 @@ function Product() {
               </label>
               <label className="mt-3 block"><span className="micro text-charcoal">Return date</span><input aria-label="Return date" type="date" min={start || undefined} value={start ? addDays(start, days) : ""} readOnly className="mt-1 w-full border-b border-ink bg-transparent py-1 font-mono text-sm" /></label>
               <p className="mt-3 text-xs text-charcoal">Sample pricing. Refundable deposit amount and delivery estimate will be confirmed before reservation.</p>
-              <button onClick={() => { if (!start || start < new Date().toISOString().slice(0,10)) { setDateError("Choose a future start date."); return; } setDateError(""); setReservation(true); }} className="micro mt-4 w-full bg-ink py-3 text-bone hover:bg-editorial">Reserve This Piece →</button>
+              <Button variant="editorial" size="editorial" onClick={() => { if (!start || start < new Date().toISOString().slice(0,10)) { setDateError("Choose a future start date."); return; } setDateError(""); setReservation(true); }} className="micro mt-4 w-full bg-ink py-3 text-bone hover:bg-editorial">Reserve This Piece →</Button>
               {dateError && <p role="alert" className="mt-2 text-sm text-editorial">{dateError}</p>}
             </div>}
             {availability.own && <div className="flex flex-col p-5">
@@ -118,7 +119,7 @@ function Product() {
               <p className="mt-2 font-serif text-lg italic">A find worth keeping.</p>
               <p className="mt-3 font-serif text-3xl">${p.own}</p>
               <p className="micro mt-4 text-charcoal">Sample purchase price · availability unverified</p>
-              <button onClick={() => add(p, "Own")} className="micro mt-auto w-full border border-ink py-3 hover:bg-ink hover:text-bone">Make It Yours →</button>
+              <Button variant="editorial" size="editorial" onClick={() => add(p, "Own")} className="micro mt-auto w-full border border-ink py-3 hover:bg-ink hover:text-bone">Make It Yours →</Button>
             </div>}
           </div>
 
@@ -144,9 +145,9 @@ function Product() {
             <p className="micro mb-2">The details</p>
             {details.map(([k, v]) => (
               <div key={k} className="border-t border-ink last:border-b">
-                <button aria-expanded={open === k} onClick={() => setOpen(open === k ? null : k)} className="micro flex w-full justify-between py-4 hover:text-editorial">
+                <Button variant="editorial" size="editorial" aria-expanded={open === k} onClick={() => setOpen(open === k ? null : k)} className="micro flex w-full justify-between py-4 hover:text-editorial">
                   <span>{k}</span><span>{open === k ? "−" : "+"}</span>
-                </button>
+                </Button>
                 {open === k && <p className="pb-4 text-sm leading-relaxed text-charcoal">{v}</p>}
               </div>
             ))}
@@ -176,7 +177,7 @@ function Product() {
           <p className="font-serif text-xl">{p.name}</p>
           <dl className="grid grid-cols-2 gap-3 text-sm"><dt>Start date</dt><dd>{start}</dd><dt>Return date</dt><dd>{start ? addDays(start, days) : ''}</dd><dt>Sample rental price</dt><dd>${p.rent}</dd><dt>Refundable deposit</dt><dd>To be confirmed</dd><dt>Delivery estimate</dt><dd>To be confirmed</dd></dl>
           <div className="flex flex-wrap gap-4"><Link onClick={() => setReservation(false)} to="/how-it-works" className="link-line">How Renting Works</Link><Link onClick={() => setReservation(false)} to="/how-it-works" hash="shipping-returns" className="link-line">Shipping / Returns</Link><Link onClick={() => setReservation(false)} to="/how-it-works" hash="damage-terms" className="link-line">Damage Terms</Link></div>
-          <button onClick={() => { add(p, "Rent", days, start); setReservation(false); }} className="micro bg-ink py-4 text-bone">Add selection to bag →</button>
+          <Button variant="editorial" size="editorial" onClick={() => { add(p, "Rent", days, start); setReservation(false); }} className="micro bg-ink py-4 text-bone">Add selection to bag →</Button>
         </DialogContent>
       </Dialog>
     </div>

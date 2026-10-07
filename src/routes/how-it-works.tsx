@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { VintagePromise } from "@/components/VintagePromise";
@@ -82,9 +83,9 @@ function How() {
           <div className="mt-10">
             {faqs.map(([q, a], i) => (
               <div id={i === 2 ? "shipping-returns" : i === 3 ? "damage-terms" : undefined} key={q} className="scroll-mt-24 border-t border-ink last:border-b">
-                <button onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} className="flex w-full gap-4 items-center justify-between py-5 text-left font-serif text-xl hover:text-editorial">
+                <Button variant="editorial" size="editorial" onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} className="flex w-full gap-4 items-center justify-between py-5 text-left font-serif text-xl hover:text-editorial">
                   <span>{q}</span><span className="micro">{open === i ? "−" : "+"}</span>
-                </button>
+                </Button>
                 {open === i && <p className="pb-6 leading-relaxed text-charcoal">{a}</p>}
               </div>
             ))}

@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import p0 from "@/assets/photo0.jpg.asset.json";
 import p2 from "@/assets/photo2.jpg.asset.json";
@@ -109,7 +110,7 @@ function Index() {
               </p>
               <div className="mt-3 flex items-center justify-between border-t border-ink pt-3">
                 <span className="micro text-charcoal">Rent ${f.rent} · Own ${f.own}</span>
-                <button onClick={() => add(f)} className="micro border-b border-ink hover:text-editorial">Add to bag</button>
+                <Button variant="editorial" size="editorial" onClick={() => add(f)} className="micro border-b border-ink hover:text-editorial">Add to bag</Button>
               </div>
             </article>
           ))}
