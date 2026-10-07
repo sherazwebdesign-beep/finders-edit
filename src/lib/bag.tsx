@@ -21,7 +21,7 @@ export function BagProvider({ children }: { children: ReactNode }) {
   const [bag, setBag] = useState<BagLine[]>([]);
   const [open, setOpen] = useState(false);
   const add = (piece: Piece, mode: "Rent" | "Own" = "Rent", days?: 4 | 8, date?: string) => {
-    setBag((b) => [...b, { piece, mode, days, date }]);
+    setBag((b) => [...b, { piece, mode, ...(days === undefined ? {} : { days }), ...(date === undefined ? {} : { date }) }]);
     setOpen(true);
   };
   const setMode = (i: number, mode: "Rent" | "Own") => setBag((x) => x.map((y, j) => (j === i ? { ...y, mode } : y)));

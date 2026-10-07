@@ -86,8 +86,8 @@ export function SiteFooter() {
           <p className="mt-8 text-sm text-bone/80">New finds, first.</p>
           <p className="mt-2 text-sm text-bone/80">Notes from the hunt, fresh discoveries, and pieces worth a closer look.</p>
           <form onSubmit={async (e) => { e.preventDefault(); const form = e.currentTarget; setBusy(true); try { const result = await subscribe({ data: { email: String(new FormData(form).get("email")), website: "" } }); setToken(result.token); setStatus("You’re on the list. New finds, first."); form.reset(); } catch { setStatus("We could not add you. Please try again."); } finally { setBusy(false); } }} className="mt-4 flex max-w-sm border-b border-bone/50">
-            <input name="email" aria-label="Your email address" type="email" required placeholder="Your email address" className="flex-1 bg-transparent py-2 text-sm outline-none placeholder:text-bone/40" />
-            <Button variant="editorial" size="editorial" disabled={busy} className="micro shrink-0">{busy ? "Joining…" : "Join the List"}</Button>
+            <input name="email" aria-label="Your email address" type="email" required maxLength={254} placeholder="Your email address" className="min-w-0 flex-1 bg-transparent py-2 text-sm outline-none placeholder:text-bone/40" />
+            <Button type="submit" variant="editorial" size="editorial" disabled={busy} className="micro shrink-0">{busy ? "Joining…" : "Join the List"}</Button>
           </form>
           {status && <p role="status" className="mt-3 text-sm">{status}</p>}
           {token && <Button variant="editorial" size="editorial" className="link-line mt-2" onClick={async () => { await unsubscribe({ data: { token } }); setToken(""); setStatus("You have been unsubscribed."); }}>Unsubscribe</Button>}

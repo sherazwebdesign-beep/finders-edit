@@ -20,6 +20,7 @@ export const submitRequest = createServerFn({ method: 'POST' })
         if (error) throw new Error('An image could not be uploaded. Please try again.');
         paths.push(path);
       }
+      if (data.kind === 'styling' && paths.length !== 3) throw new Error('Please upload three inspiration images.');
       const { error } = await supabaseAdmin.from('website_requests').insert({ id, kind: data.kind, name: data.name, email: data.email, details: { ...data.details, images: paths } });
       if (error) throw new Error('Your note could not be saved. Please try again.');
       return { saved: true };
@@ -34,7 +35,8 @@ export const subscribe = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
     const token = crypto.randomUUID();
-    const { error } = await supabaseAdmin.from('newsletter_subscriptions').upsert({ email: data.email.toLowerCase(), subscribed: true, unsubscribe_token: token }, { onConflict: 'email' });
+    const { error } = await supabaseAdmin.from('newsletter_subscriptions').insert({ email: data.email.toLowerCase(), subscribed: true, unsubscribe_token: token });
+    if (error?.code === '23505') return { token: '' };
     if (error) throw new Error('We could not add you to the list. Please try again.');
     return { token };
   });

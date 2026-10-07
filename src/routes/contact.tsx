@@ -66,7 +66,7 @@ function Contact() {
               </label>
               {error && <p role="alert" className="text-editorial">{error}</p>}
               <p className="text-sm text-charcoal">Your details are used to respond to this note and are stored privately.</p>
-              <Button variant="editorial" size="editorial" disabled={busy} className="micro w-full bg-ink py-4 text-bone hover:bg-editorial">{busy ? "Sending…" : "Send a Note →"}</Button>
+              <Button type="submit" variant="editorial" size="editorial" disabled={busy} className="micro w-full bg-ink py-4 text-bone hover:bg-editorial">{busy ? "Sending…" : "Send a Note →"}</Button>
             </form>
           )}
         </div>
