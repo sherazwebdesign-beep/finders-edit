@@ -1,4 +1,7 @@
+import { Button } from '@/components/ui/button';
 import { createContext, useContext, useState, type ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import type { Piece } from "@/lib/pieces";
 
 export type BagLine = { piece: Piece; mode: "Rent" | "Own"; days?: 4 | 8 | undefined; date?: string | undefined };
@@ -18,7 +21,7 @@ export function BagProvider({ children }: { children: ReactNode }) {
   const [bag, setBag] = useState<BagLine[]>([]);
   const [open, setOpen] = useState(false);
   const add = (piece: Piece, mode: "Rent" | "Own" = "Rent", days?: 4 | 8, date?: string) => {
-    setBag((b) => [...b, { piece, mode, days, date }]);
+    setBag((b) => [...b, { piece, mode, ...(days === undefined ? {} : { days }), ...(date === undefined ? {} : { date }) }]);
     setOpen(true);
   };
   const setMode = (i: number, mode: "Rent" | "Own") => setBag((x) => x.map((y, j) => (j === i ? { ...y, mode } : y)));
@@ -35,13 +38,9 @@ export function useBag() {
 export function BagDrawer() {
   const { bag, setMode, remove, open, setOpen } = useBag();
   return (
-    <div className={`fixed inset-0 z-50 ${open ? "" : "pointer-events-none"}`} aria-hidden={!open}>
-      <div onClick={() => setOpen(false)} className={`absolute inset-0 bg-ink/40 transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`} />
-      <aside className={`absolute right-0 top-0 flex h-full w-full max-w-md flex-col border-l border-ink bg-bone transition-transform duration-500 ${open ? "translate-x-0" : "translate-x-full"}`}>
-        <div className="flex items-center justify-between border-b border-ink px-6 py-5">
-          <h2 className="font-serif text-2xl italic">The Archive Bag</h2>
-          <button onClick={() => setOpen(false)} className="micro hover:text-editorial">Close ×</button>
-        </div>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="left-auto right-0 top-0 h-dvh max-w-md translate-x-0 translate-y-0 flex flex-col p-0">
+        <div className="border-b border-ink px-6 py-5"><DialogTitle className="font-serif text-2xl font-normal">The Archive Bag</DialogTitle><DialogDescription>Review your selections.</DialogDescription></div>
         <div className="flex-1 overflow-y-auto p-6">
           {bag.length === 0 ? (
             <p className="hand text-3xl text-editorial">nothing yet. go find something.</p>
@@ -58,11 +57,11 @@ export function BagDrawer() {
                     )}
                     <div className="mt-2 flex flex-wrap gap-3">
                       {(["Rent", "Own"] as const).map((m) => (
-                        <button key={m} onClick={() => setMode(i, m)} className={`micro border px-2 py-1 ${b.mode === m ? "bg-ink text-bone" : "border-ink"}`}>
+                        <Button variant="editorial" size="editorial" key={m} onClick={() => setMode(i, m)} className={`micro border px-2 py-1 ${b.mode === m ? "bg-ink text-bone" : "border-ink"}`}>
                           {m} ${m === "Rent" ? b.piece.rent : b.piece.own}
-                        </button>
+                        </Button>
                       ))}
-                      <button onClick={() => remove(i)} className="micro ml-auto hover:text-editorial">Remove</button>
+                      <Button variant="editorial" size="editorial" onClick={() => remove(i)} className="micro ml-auto hover:text-editorial">Remove</Button>
                     </div>
                   </div>
                 </div>
@@ -71,12 +70,12 @@ export function BagDrawer() {
                 <span>Total</span>
                 <span>${bag.reduce((s, b) => s + (b.mode === "Rent" ? b.piece.rent : b.piece.own), 0)}</span>
               </div>
-              <button className="micro w-full bg-ink py-4 text-bone hover:bg-editorial">Checkout →</button>
-              <p className="hand -rotate-1 text-2xl text-pen">checkout opens when the doors do. xx</p>
+              <Link to="/contact" search={{ topic: "My Rental", ref: bag.map(b => b.piece.no).join(", ") }} onClick={() => setOpen(false)} className="micro block text-center w-full bg-ink py-4 text-bone hover:bg-editorial">Ask to confirm availability →</Link>
+              <p className="hand -rotate-1 text-2xl text-pen">No payment taken. Availability, pricing, and terms must be confirmed before a booking.</p>
             </div>
           )}
         </div>
-      </aside>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

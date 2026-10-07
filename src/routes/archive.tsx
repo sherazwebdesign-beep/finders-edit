@@ -1,7 +1,8 @@
+import { Button } from '@/components/ui/button';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
-import { pieces, moods, events, destinations, types, colors, colorOf } from "@/lib/pieces";
+import { pieces, moods, events, destinations, types, colors, colorOf, availabilityOf } from "@/lib/pieces";
 import { useBag } from "@/lib/bag";
 import { Arrow, Mark, Under } from "@/lib/pen";
 
@@ -19,6 +20,8 @@ export const Route = createFileRoute("/archive")({
   validateSearch: zodValidator(schema),
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "The Archive — Finders Edit" },
       { name: "description", content: "Pieces with a point of view. Browse vintage jewelry by mood, event, destination, color, or piece — to rent or own." },
       { property: "og:title", content: "The Archive — Finders Edit" },
@@ -53,7 +56,7 @@ function Archive() {
     (view === "all" || p.views.includes(view as "new" | "edits" | "lust")) &&
     (!s.mood || p.mood === s.mood) && (!s.event || p.event === s.event) &&
     (!s.destination || p.destination === s.destination) && (!s.type || p.type === s.type) &&
-    (!s.color || colorOf(p) === s.color),
+    (!s.color || colorOf(p) === s.color) && (s.mode !== "rent" || availabilityOf(p).rent) && (s.mode !== "own" || availabilityOf(p).own),
   );
 
   const set = (k: string, v: string) => navigate({ resetScroll: false, search: (prev) => ({ ...prev, [k]: v }) });
@@ -84,11 +87,11 @@ function Archive() {
       <div className="border-b border-ink">
         <div className="mx-auto flex max-w-[1400px] flex-wrap gap-x-12 gap-y-8 px-5 py-5">
           {tabs.map((t) => (
-            <button key={t.v} onClick={() => set("view", t.v)} className={`relative micro ${view === t.v ? "text-editorial" : "hover:text-editorial"}`}>
+            <Button variant="editorial" size="editorial" key={t.v} onClick={() => set("view", t.v)} className={`relative micro ${view === t.v ? "text-editorial" : "hover:text-editorial"}`}>
               {t.label}
               {view === t.v && <Under className="-bottom-2 h-2 text-editorial" />}
               {t.v === "new" && <span className="hand absolute -right-10 -top-5 rotate-[-10deg] text-xl normal-case tracking-normal text-pen">just in!</span>}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -111,7 +114,7 @@ function Archive() {
           <div className="col-span-2 flex items-center px-4 py-3 lg:col-span-1">
             <div className="grid w-full grid-cols-3 border border-ink">
               {[["all", "All"], ["rent", "Rent"], ["own", "Own"]].map(([v, l]) => (
-                <button key={v} onClick={() => set("mode", v ?? "all")} className={`micro py-2 ${s.mode === v ? "bg-ink text-bone" : "hover:text-editorial"}`}>{l}</button>
+                <Button variant="editorial" size="editorial" key={v} onClick={() => set("mode", v ?? "all")} className={`micro py-2 ${s.mode === v ? "bg-ink text-bone" : "hover:text-editorial"}`}>{l}</Button>
               ))}
             </div>
           </div>
@@ -120,13 +123,14 @@ function Archive() {
 
       {/* GRID */}
       <section className="mx-auto max-w-[1400px] px-5 py-16">
+        <p className="mb-4 text-sm text-charcoal">Sample archive — piece names, photography, prices, and availability await confirmation.</p>
         <p className="micro mb-8">{list.length} {list.length === 1 ? "piece" : "pieces"}</p>
         {list.length === 0 ? (
           <div className="border border-ink p-12 text-center">
             <p className="font-serif text-3xl italic">No pieces in this edit right now.</p>
             <p className="hand mt-3 text-3xl text-editorial">Try another filter, or let us help you find your piece.</p>
             <div className="mt-8 flex justify-center gap-6">
-              <button onClick={clear} className="link-line">Clear Filters</button>
+              <Button variant="editorial" size="editorial" onClick={clear} className="link-line">Clear Filters</Button>
               <Link to="/private-styling" className="link-line">Ask for Styling</Link>
             </div>
           </div>
@@ -150,7 +154,7 @@ function Archive() {
                     <span className="text-charcoal"> · </span>
                     <span className={s.mode === "rent" ? "text-charcoal/40" : s.mode === "own" ? "text-editorial" : "text-charcoal"}>Own ${p.own}</span>
                   </span>
-                  <button onClick={() => add(p, s.mode === "own" ? "Own" : "Rent")} className="micro border-b border-ink hover:text-editorial">Add to bag</button>
+                  <Button variant="editorial" size="editorial" onClick={() => add(p, s.mode === "own" ? "Own" : "Rent")} className="micro border-b border-ink hover:text-editorial">Add to bag</Button>
                 </div>
               </article>
             ))}

@@ -1,7 +1,9 @@
+import { Button } from '@/components/ui/button';
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { useState } from "react";
+import { submitRequest } from '@/lib/requests.functions';
 import { Mark } from "@/lib/pen";
 
 const topics = ["A Piece", "My Rental", "Buying a Piece", "Private Styling", "Something Else"];
@@ -13,6 +15,8 @@ export const Route = createFileRoute("/contact")({
   })),
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Contact — Finders Edit" },
       { name: "description", content: "A question about a piece, help with a rental, or a look you want to bring together. Write to Finders Edit." },
       { property: "og:title", content: "Tell us what you have in mind — Finders Edit" },
@@ -27,6 +31,8 @@ const field = "mt-1 w-full border-b border-ink bg-transparent py-2 font-serif ou
 function Contact() {
   const { topic, ref } = Route.useSearch();
   const [sent, setSent] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
   return (
     <div className="bg-bone text-ink">
       <section className="mx-auto grid max-w-[1400px] gap-16 px-5 py-16 md:grid-cols-2 md:py-24">
@@ -48,19 +54,21 @@ function Contact() {
               <p className="hand mt-6 -rotate-2 text-4xl text-editorial">xx</p>
             </div>
           ) : (
-            <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="space-y-7">
-              <label className="block"><span className="micro">Name</span><input required className={field} /></label>
-              <label className="block"><span className="micro">Email</span><input required type="email" className={field} /></label>
+            <form onSubmit={async (e) => { e.preventDefault(); const data = new FormData(e.currentTarget); setBusy(true); setError(""); try { await submitRequest({ data: { kind: "contact", name: String(data.get("name")), email: String(data.get("email")), details: { topic: String(data.get("topic")), reference: String(data.get("reference")), message: String(data.get("message")) }, images: [], website: "" } }); setSent(true); } catch { setError("Your note could not be saved. Please try again."); } finally { setBusy(false); } }} className="space-y-7">
+              <label className="block"><span className="micro">Name</span><input name="name" maxLength={120} required className={field} /></label>
+              <label className="block"><span className="micro">Email</span><input name="email" maxLength={254} required type="email" className={field} /></label>
               <label className="block"><span className="micro">What can we help with?</span>
-                <select defaultValue={topics.includes(topic) ? topic : topics[0]} className={field}>
+                <select name="topic" key={topic} defaultValue={topics.includes(topic) ? topic : topics[0]} className={field}>
                   {topics.map((t) => <option key={t}>{t}</option>)}
                 </select>
               </label>
-              <label className="block"><span className="micro">Order or reservation number (optional)</span><input defaultValue={ref} className={field} /></label>
+              <label className="block"><span className="micro">Order or reservation number (optional)</span><input name="reference" key={ref} defaultValue={ref} className={field} /></label>
               <label className="block"><span className="micro">Message</span>
-                <textarea required rows={5} className="mt-2 w-full border border-ink bg-bone p-3 font-serif outline-none focus:border-editorial" />
+                <textarea maxLength={6000} name="message" required rows={5} className="mt-2 w-full border border-ink bg-bone p-3 font-serif outline-none focus:border-editorial" />
               </label>
-              <button className="micro w-full bg-ink py-4 text-bone hover:bg-editorial">Send a Note →</button>
+              {error && <p role="alert" className="text-editorial">{error}</p>}
+              <p className="text-sm text-charcoal">Your details are used to respond to this note and are stored privately.</p>
+              <Button type="submit" variant="editorial" size="editorial" disabled={busy} className="micro w-full bg-ink py-4 text-bone hover:bg-editorial">{busy ? "Sending…" : "Send a Note →"}</Button>
             </form>
           )}
         </div>

@@ -1,5 +1,8 @@
+import { Button } from '@/components/ui/button';
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { subscribe, unsubscribe } from '@/lib/requests.functions';
+import { TermsDialog } from '@/components/TermsDialog';
 import { useBag } from "@/lib/bag";
 
 const navLink = "micro hover:text-editorial";
@@ -10,29 +13,31 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-ink bg-bone">
       <div className="mx-auto grid max-w-[1400px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-4">
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-5 xl:flex">
           <div className="group relative">
             <Link to="/archive" className={navLink}>The Archive</Link>
-            <div className="invisible absolute left-0 top-full z-40 w-44 border border-ink bg-bone opacity-0 transition group-hover:visible group-hover:opacity-100">
+            <div className="invisible group-focus-within:visible group-focus-within:opacity-100 absolute left-0 top-full z-40 w-44 border border-ink bg-bone opacity-0 transition group-hover:visible group-hover:opacity-100">
               <Link to="/archive" search={{ view: "all" }} className="micro block border-b border-ink px-4 py-3 hover:bg-linen">All Archive</Link>
               <Link to="/archive" search={{ view: "new" }} className="micro block border-b border-ink px-4 py-3 hover:bg-linen">New Finds</Link>
               <Link to="/archive" search={{ view: "edits" }} className="micro block border-b border-ink px-4 py-3 hover:bg-linen">The Edits</Link>
               <Link to="/archive" search={{ view: "lust" }} className="micro block px-4 py-3 hover:bg-linen">The Lust List</Link>
             </div>
           </div>
-          <Link to="/private-styling" className={navLink}>Private Styling</Link>
-          <Link to="/how-it-works" className={navLink}>How Renting Works</Link>
+          <Link to="/archive" search={{ view: "the-edits" }} className={navLink}>The Edits</Link>
+          <Link to="/archive" search={{ view: "new-finds" }} className={navLink}>New Finds</Link>
         </nav>
-        <button onClick={() => setMenu(!menu)} className="micro md:hidden">Menu {menu ? "×" : "+"}</button>
-        <Link to="/" className="col-start-2 font-serif text-2xl tracking-tight">Finders<em>Edit</em></Link>
-        <nav className="flex items-center justify-end gap-6">
-          <Link to="/about" className={`${navLink} hidden md:inline`}>About the Eye</Link>
-          <Link to="/contact" className={`${navLink} hidden md:inline`}>Contact</Link>
-          <button onClick={() => setOpen(true)} className={navLink}>Bag ({bag.length})</button>
+        <Button variant="editorial" size="editorial" aria-expanded={menu} onClick={() => setMenu(!menu)} className="micro xl:hidden">Menu {menu ? "×" : "+"}</Button>
+        <Link to="/" className="col-start-2 font-serif text-2xl whitespace-nowrap">Finders<em>Edit</em></Link>
+        <nav className="flex items-center justify-end gap-4">
+          <Link to="/private-styling" className={`${navLink} hidden xl:inline`}>Private Styling</Link>
+          <Link to="/how-it-works" className={`${navLink} hidden xl:inline`}>How Renting Works</Link>
+          <Link to="/about" className={`${navLink} hidden xl:inline`}>About the Eye</Link>
+          <Link to="/contact" className={`${navLink} hidden xl:inline`}>Contact</Link>
+          <Button variant="editorial" size="editorial" onClick={() => setOpen(true)} className={`${navLink} whitespace-nowrap`}>Bag ({bag.length})</Button>
         </nav>
       </div>
       {menu && (
-        <nav className="border-t border-ink bg-bone px-5 py-4 md:hidden">
+        <nav className="border-t border-ink bg-bone px-5 py-4 xl:hidden">
           <div className="grid gap-3">
             <Link to="/archive" search={{ view: "all" }} onClick={() => setMenu(false)} className={navLink}>The Archive</Link>
             <Link to="/archive" search={{ view: "new" }} onClick={() => setMenu(false)} className="micro pl-4 text-charcoal hover:text-editorial">— New Finds</Link>
@@ -50,6 +55,10 @@ export function SiteHeader() {
 }
 
 export function SiteFooter() {
+  const [status, setStatus] = useState("");
+  const [token, setToken] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [topic, setTopic] = useState<string | null>(null);
   const cols: [string, { label: string; to: string; search?: Record<string, string> }[]][] = [
     ["Shop", [
       { label: "The Archive", to: "/archive", search: { view: "all" } },
@@ -65,7 +74,7 @@ export function SiteFooter() {
     ["The World", [
       { label: "About the Eye", to: "/about" },
       { label: "Instagram (@FindersEdit)", to: "/contact" },
-      { label: "Email", to: "/contact" },
+      { label: "Our Vintage Promise", to: "/how-it-works" },
     ]],
   ];
   return (
@@ -74,11 +83,15 @@ export function SiteFooter() {
         <div>
           <p className="font-serif text-4xl">Finders<em className="text-gold">Edit</em></p>
           <p className="micro mt-2 text-bone/60">A private world of great taste</p>
-          <p className="mt-8 text-sm text-bone/80">New finds, first. Letters from the hunt, a few times a month.</p>
-          <form onSubmit={(e) => { e.preventDefault(); (e.currentTarget as HTMLFormElement).reset(); }} className="mt-4 flex max-w-sm border-b border-bone/50">
-            <input type="email" required placeholder="Your email" className="flex-1 bg-transparent py-2 text-sm outline-none placeholder:text-bone/40" />
-            <button className="micro">Join →</button>
+          <p className="mt-8 text-sm text-bone/80">New finds, first.</p>
+          <p className="mt-2 text-sm text-bone/80">Notes from the hunt, fresh discoveries, and pieces worth a closer look.</p>
+          <form onSubmit={async (e) => { e.preventDefault(); const form = e.currentTarget; setBusy(true); try { const result = await subscribe({ data: { email: String(new FormData(form).get("email")), website: "" } }); setToken(result.token); setStatus("You’re on the list. New finds, first."); form.reset(); } catch { setStatus("We could not add you. Please try again."); } finally { setBusy(false); } }} className="mt-4 flex max-w-sm border-b border-bone/50">
+            <input name="email" aria-label="Your email address" type="email" required maxLength={254} placeholder="Your email address" className="min-w-0 flex-1 bg-transparent py-2 text-sm outline-none placeholder:text-bone/40" />
+            <Button type="submit" variant="editorial" size="editorial" disabled={busy} className="micro shrink-0">{busy ? "Joining…" : "Join the List"}</Button>
           </form>
+          {status && <p role="status" className="mt-3 text-sm">{status}</p>}
+          {token && <Button variant="editorial" size="editorial" className="link-line mt-2" onClick={async () => { await unsubscribe({ data: { token } }); setToken(""); setStatus("You have been unsubscribed."); }}>Unsubscribe</Button>}
+          <div className="mt-6 flex gap-6"><Button variant="editorial" size="editorial" onClick={() => setTopic("Privacy")} className="micro">Privacy</Button><Button variant="editorial" size="editorial" onClick={() => setTopic("Rental Terms")} className="micro">Rental Terms</Button></div>
         </div>
         {cols.map(([h, ls]) => (
           <div key={h}>
@@ -86,7 +99,7 @@ export function SiteFooter() {
             <ul className="space-y-2 text-sm">
               {ls.map((l) => (
                 <li key={l.label}>
-                  <Link to={l.to} search={l.search} className="hover:text-editorial">{l.label}</Link>
+                  {l.label.startsWith("Instagram") ? <a href="https://instagram.com/findersedit" target="_blank" rel="noreferrer" className="hover:text-editorial">{l.label}</a> : <Link to={l.to} search={l.search ?? {}} hash={l.label === "Our Vintage Promise" ? "vintage-promise" : ""} className="hover:text-editorial">{l.label}</Link>}
                 </li>
               ))}
             </ul>
@@ -101,6 +114,7 @@ export function SiteFooter() {
         </p>
         <p className="micro text-bone/50">© 2026 Finders Edit. All rights reserved.</p>
       </div>
+      <TermsDialog topic={topic} close={() => setTopic(null)} />
     </footer>
   );
 }

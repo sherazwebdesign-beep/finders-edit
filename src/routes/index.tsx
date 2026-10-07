@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import p0 from "@/assets/photo0.jpg.asset.json";
 import p2 from "@/assets/photo2.jpg.asset.json";
@@ -11,6 +12,8 @@ import { Arrow, Loop, Mark, Strike, Under } from "@/lib/pen";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Finders Edit — Vintage jewelry curated for now" },
       { name: "description", content: "A private archive of vintage statement jewelry, curated by Tinamarie. Rent, acquire, or book private styling." },
       { property: "og:title", content: "Finders Edit — Look what I found" },
@@ -34,14 +37,14 @@ function Index() {
     <div className="min-h-screen bg-bone text-ink">
       {/* HERO */}
       <section className="border-b border-ink">
-        <div className="relative mx-auto grid max-w-[1400px] grid-cols-[40px_minmax(0,1fr)] gap-4 px-5 py-10 lg:grid-cols-[140px_minmax(0,1fr)_260px] md:gap-8 md:py-16">
+        <div className="relative mx-auto grid max-w-[1400px] grid-cols-[40px_minmax(0,1fr)] gap-4 px-5 py-6 lg:grid-cols-[140px_minmax(0,1fr)_260px] md:gap-8 md:py-16">
           <div className="relative">
             <p className="micro text-charcoal normal-case tracking-normal">Vintage jewelry to rent or own.</p>
             <span className="absolute bottom-0 left-0 origin-bottom-left -rotate-90 translate-x-[0.85em] whitespace-nowrap font-serif text-[64px] leading-none tracking-tight md:text-[150px]">finders</span>
           </div>
-          <div className="relative pt-12 md:pt-16">
+          <div className="relative pt-8 md:pt-16">
             <span className="absolute -top-2 right-0 z-10 font-serif text-[80px] italic text-bone mix-blend-difference leading-none md:right-0 md:text-[130px]">edit</span>
-            <div className="relative aspect-[4/5] overflow-hidden bg-ink md:aspect-[5/4]">
+            <div className="relative aspect-square overflow-hidden bg-ink md:aspect-[5/4]">
               <img src={p5.url} alt="Sculptural diamond collar on a neckline" className="grain h-full w-full object-cover" />
               <div className="absolute left-[8%] top-[28%] text-editorial" style={{ transform: "rotate(-8deg) skewX(-8deg)", opacity: 0.92 }}>
                 <p className="script text-6xl leading-[0.9] md:text-[120px]">look what<br /><span className="ml-16 inline-block">I <span className="relative inline-block">found<Under double className="-bottom-1 h-5" /></span></span></p>
@@ -50,8 +53,8 @@ function Index() {
               <p className="micro absolute bottom-4 left-4 text-bone/70">No. 01 — A collar worth a second look</p>
             </div>
           </div>
-          <aside className="col-span-2 flex flex-col justify-end gap-6 lg:col-span-1">
-            <h1 className="font-serif text-3xl leading-tight">Finders Edit takes the guesswork out of statement pieces.</h1>
+          <aside className="col-span-2 flex flex-col justify-end gap-4 lg:gap-6 lg:col-span-1">
+            <h1 className="font-serif text-2xl leading-tight md:text-3xl">Finders Edit takes the guesswork out of statement pieces.</h1>
             <p className="text-sm leading-relaxed text-charcoal">Every piece is chosen so you can skip the scrolling and step out in something worth asking about.</p>
             <div className="flex flex-col items-start gap-4">
               <Link to="/archive" search={{ view: "all" }} className="link-line">Enter the archive →</Link>
@@ -89,7 +92,8 @@ function Index() {
           </div>
           <Link to="/archive" search={{ view: "new-finds" }} className="link-line">Explore New Finds →</Link>
         </div>
-        <p className="mb-8 max-w-2xl text-charcoal">The latest pieces to join the archive. Chosen for their character, their presence, and the way they change a look.</p>
+        <p className="mb-4 max-w-2xl text-charcoal">The latest pieces to join the archive. Chosen for their character, their presence, and the way they change a look.</p>
+        <p className="mb-8 text-sm text-charcoal">Sample selection — photographs, prices, and availability await confirmation.</p>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {finds.map((f, i) => (
             <article key={f.no}>
@@ -109,7 +113,7 @@ function Index() {
               </p>
               <div className="mt-3 flex items-center justify-between border-t border-ink pt-3">
                 <span className="micro text-charcoal">Rent ${f.rent} · Own ${f.own}</span>
-                <button onClick={() => add(f)} className="micro border-b border-ink hover:text-editorial">Add to bag</button>
+                <Button variant="editorial" size="editorial" onClick={() => add(f)} className="micro border-b border-ink hover:text-editorial">Add to bag</Button>
               </div>
             </article>
           ))}
@@ -250,7 +254,7 @@ function Index() {
           <p className="micro">Gift cards</p>
           <h2 className="mt-4 font-serif text-6xl leading-none">Give her <em>the find.</em></h2>
           <p className="mt-6 max-w-md text-charcoal">For the friend who appreciates a very good discovery.</p>
-          <Link to="/contact" className="micro mt-8 inline-block bg-ink px-6 py-4 text-bone hover:bg-editorial">Give a Gift Card →</Link>
+          <Link to="/contact" className="micro mt-8 inline-block bg-ink px-6 py-4 text-bone hover:bg-editorial">Ask About a Gift →</Link>
         </div>
       </section>
     </div>
