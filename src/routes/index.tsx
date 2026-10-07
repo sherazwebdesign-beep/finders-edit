@@ -14,8 +14,6 @@ export const Route = createFileRoute("/")({
     meta: [
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:image", content: p5.url },
-      { name: "twitter:image", content: p5.url },
       { title: "Finders Edit — Vintage jewelry curated for now" },
       { name: "description", content: "A private archive of vintage statement jewelry, curated by Tinamarie. Rent, acquire, or book private styling." },
       { property: "og:title", content: "Finders Edit — Look what I found" },

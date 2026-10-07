@@ -14,13 +14,13 @@ export const Route = createFileRoute("/product/$id")({
   },
   head: ({ loaderData }) => {
     const p = loaderData ? getPiece(loaderData.id) : undefined;
-    if (!p) return { meta: [
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      ...(p.img.startsWith("https://") ? [{ property: "og:image", content: p.img }, { name: "twitter:image", content: p.img }] : []),{ title: "Piece not found — Finders Edit" }, { name: "robots", content: "noindex" }] };
+    if (!p) return { meta: [{ title: "Piece not found — Finders Edit" }, { name: "description", content: "This piece is not in the Finders Edit archive." }, { property: "og:title", content: "Piece not found — Finders Edit" }, { property: "og:description", content: "Explore the Finders Edit archive." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] };
     const t = `${p.name} — No. ${p.no} — Finders Edit`;
     return {
       meta: [
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        ...(p.img.startsWith("https://") ? [{ property: "og:image", content: p.img }, { name: "twitter:image", content: p.img }] : []),
         { title: t },
         { name: "description", content: `${taglines[p.id]} Rent from $${p.rent} or own for $${p.own}.` },
         { property: "og:title", content: t },

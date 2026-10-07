@@ -8,8 +8,6 @@ export const Route = createFileRoute("/about")({
     meta: [
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:image", content: p3.url },
-      { name: "twitter:image", content: p3.url },
       { title: "About the Eye — Tinamarie, Finders Edit" },
       { name: "description", content: "The eye behind the edit. Tinamarie on modeling, collecting, and why every great find comes with the same impulse: you have to see this." },
       { property: "og:title", content: "The eye behind the edit — Finders Edit" },
