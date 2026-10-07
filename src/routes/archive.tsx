@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
-import { pieces, moods, events, destinations, types, colors, colorOf } from "@/lib/pieces";
+import { pieces, moods, events, destinations, types, colors, colorOf, availabilityOf } from "@/lib/pieces";
 import { useBag } from "@/lib/bag";
 import { Arrow, Mark, Under } from "@/lib/pen";
 
@@ -53,7 +53,7 @@ function Archive() {
     (view === "all" || p.views.includes(view as "new" | "edits" | "lust")) &&
     (!s.mood || p.mood === s.mood) && (!s.event || p.event === s.event) &&
     (!s.destination || p.destination === s.destination) && (!s.type || p.type === s.type) &&
-    (!s.color || colorOf(p) === s.color),
+    (!s.color || colorOf(p) === s.color) && (s.mode !== "rent" || availabilityOf(p).rent) && (s.mode !== "own" || availabilityOf(p).own),
   );
 
   const set = (k: string, v: string) => navigate({ resetScroll: false, search: (prev) => ({ ...prev, [k]: v }) });
@@ -120,6 +120,7 @@ function Archive() {
 
       {/* GRID */}
       <section className="mx-auto max-w-[1400px] px-5 py-16">
+        <p className="mb-4 text-sm text-charcoal">Sample archive — piece names, photography, prices, and availability await confirmation.</p>
         <p className="micro mb-8">{list.length} {list.length === 1 ? "piece" : "pieces"}</p>
         {list.length === 0 ? (
           <div className="border border-ink p-12 text-center">

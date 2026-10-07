@@ -22,12 +22,12 @@ const steps = [
 ];
 
 const faqs = [
-  ["How long can I keep my piece?", "Choose a 4-day weekend rental or an 8-day destination rental. Your piece arrives before your start date, and your return deadline is confirmed at checkout."],
-  ["Is there a deposit?", "Yes. A refundable security hold is placed at checkout and released once your piece is returned safely."],
-  ["How does shipping work?", "Your piece arrives in Finders Edit packaging with return instructions and a prepaid return label inside. Drop it off by your return deadline."],
-  ["What if something breaks or goes missing?", "Normal vintage wear is expected. If something breaks, tell us right away and do not attempt a repair. We will walk you through what happens next, including any loss or damage charges."],
+  ["How long can I keep my piece?", "Your rental period and return deadline will be agreed before your reservation is confirmed. Ask us about your event dates."],
+  ["Is there a deposit?", "We will confirm whether a deposit applies, its amount, and the release conditions before you reserve."],
+  ["How does shipping work?", "Delivery options, costs, arrival timing, and return instructions will be confirmed for your location before you reserve."],
+  ["What if something breaks or goes missing?", "Normal vintage wear is expected. If something breaks, tell us right away and do not attempt a repair. We will explain the applicable damage or loss terms before you reserve."],
   ["Can I buy the piece I rented?", "If your piece is available to purchase, contact us before your return deadline to ask about keeping it. Your rental remains due back unless the purchase is confirmed."],
-  ["Can I cancel, extend, or return early?", "Contact us as early as possible and we will do our best to help, depending on the piece's next reservation."],
+  ["Can I cancel, extend, or return early?", "Contact us as early as possible and we will do our best to help, We will confirm the cancellation, extension, and early-return terms before you reserve."],
   ["How should I care for my piece?", "Keep jewelry away from water, perfume, lotions, and cleaning products. Store it safely when unworn. Do not attempt repairs or polishing; contact us for advice."],
 ];
 
@@ -59,9 +59,10 @@ function How() {
 
         <div className="mt-16 grid gap-10 md:grid-cols-2">
           <div className="paper-grain rotate-[-1deg] bg-blush p-8 text-editorial">
-            <p className="font-serif text-4xl">Rent it, then keep it.</p>
-            <p className="hand mt-4 text-[26px] leading-snug">some finds are hard to give back.</p>
-            <p className="mt-4 text-sm leading-relaxed text-ink">Some finds are hard to give back. If your piece is available to purchase, contact us before your return deadline to ask about keeping it. Your rental remains due back unless the purchase is confirmed.</p>
+            <p className="micro">Rent it, then keep it</p>
+            <p className="font-serif text-4xl mt-3">Some finds are hard to give back.</p>
+            
+            <p className="mt-4 text-sm leading-relaxed text-ink">If your piece is available to purchase, contact us before your return deadline to ask about keeping it. Your rental remains due back unless the purchase is confirmed.</p>
           </div>
           <div className="flex flex-col justify-center border-l-2 border-editorial pl-6">
             <p className="font-serif text-2xl italic">Beautiful vintage jewelry, with a life before yours.</p>
@@ -80,8 +81,8 @@ function How() {
           <h2 className="font-serif text-5xl">Rental <em>questions</em></h2>
           <div className="mt-10">
             {faqs.map(([q, a], i) => (
-              <div key={q} className="border-t border-ink last:border-b">
-                <button onClick={() => setOpen(open === i ? null : i)} className="flex w-full items-center justify-between py-5 text-left font-serif text-xl hover:text-editorial">
+              <div id={i === 2 ? "shipping-returns" : i === 3 ? "damage-terms" : undefined} key={q} className="scroll-mt-24 border-t border-ink last:border-b">
+                <button onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} className="flex w-full gap-4 items-center justify-between py-5 text-left font-serif text-xl hover:text-editorial">
                   <span>{q}</span><span className="micro">{open === i ? "−" : "+"}</span>
                 </button>
                 {open === i && <p className="pb-6 leading-relaxed text-charcoal">{a}</p>}
