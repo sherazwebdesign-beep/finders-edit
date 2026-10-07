@@ -16,7 +16,7 @@ export function SiteHeader() {
         <nav className="hidden items-center gap-5 xl:flex">
           <div className="group relative">
             <Link to="/archive" className={navLink}>The Archive</Link>
-            <div className="invisible absolute left-0 top-full z-40 w-44 border border-ink bg-bone opacity-0 transition group-hover:visible group-hover:opacity-100">
+            <div className="invisible group-focus-within:visible group-focus-within:opacity-100 absolute left-0 top-full z-40 w-44 border border-ink bg-bone opacity-0 transition group-hover:visible group-hover:opacity-100">
               <Link to="/archive" search={{ view: "all" }} className="micro block border-b border-ink px-4 py-3 hover:bg-linen">All Archive</Link>
               <Link to="/archive" search={{ view: "new" }} className="micro block border-b border-ink px-4 py-3 hover:bg-linen">New Finds</Link>
               <Link to="/archive" search={{ view: "edits" }} className="micro block border-b border-ink px-4 py-3 hover:bg-linen">The Edits</Link>
@@ -26,7 +26,7 @@ export function SiteHeader() {
           <Link to="/archive" search={{ view: "the-edits" }} className={navLink}>The Edits</Link>
           <Link to="/archive" search={{ view: "new-finds" }} className={navLink}>New Finds</Link>
         </nav>
-        <Button variant="editorial" size="editorial" onClick={() => setMenu(!menu)} className="micro xl:hidden">Menu {menu ? "×" : "+"}</Button>
+        <Button variant="editorial" size="editorial" aria-expanded={menu} onClick={() => setMenu(!menu)} className="micro xl:hidden">Menu {menu ? "×" : "+"}</Button>
         <Link to="/" className="col-start-2 font-serif text-2xl whitespace-nowrap">Finders<em>Edit</em></Link>
         <nav className="flex items-center justify-end gap-4">
           <Link to="/private-styling" className={`${navLink} hidden xl:inline`}>Private Styling</Link>
@@ -99,7 +99,7 @@ export function SiteFooter() {
             <ul className="space-y-2 text-sm">
               {ls.map((l) => (
                 <li key={l.label}>
-                  <Link to={l.to} search={l.search ?? {}} hash={l.label === "Our Vintage Promise" ? "vintage-promise" : ""} className="hover:text-editorial">{l.label}</Link>
+                  {l.label.startsWith("Instagram") ? <a href="https://instagram.com/findersedit" target="_blank" rel="noreferrer" className="hover:text-editorial">{l.label}</a> : <Link to={l.to} search={l.search ?? {}} hash={l.label === "Our Vintage Promise" ? "vintage-promise" : ""} className="hover:text-editorial">{l.label}</Link>}
                 </li>
               ))}
             </ul>

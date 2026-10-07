@@ -1,5 +1,7 @@
 # Roadmap
-- [ ] 7-view site: archive, product, private styling, about, how it works, contact, shared nav/footer/bag
-- [ ] Apply October 2026 brand addendum copy (CRITICAL_COPY_ARCHITECTURE_UPDATE + brand guide PDF)
-
-- [ ] Reconcile latest complete approved seven-page brief and verify navigation and forms
+- [x] Complete seven-page browsing, approved copy, shared navigation, and bag.
+- [x] Verify desktop and phone layouts, filters, reservation review, and missing-piece handling.
+- [x] Save contact requests, private styling images, and newsletter preferences; verify real test entries.
+- [ ] Replace sample products with confirmed inventory, prices, availability, and five exact-piece photographs — waiting on owner materials.
+- [ ] Confirm rental durations, deposits, shipping, returns, damage and cancellation terms — waiting on owner decisions.
+- [ ] Enable owner email notifications — waiting on a verified sending domain and owner email address.

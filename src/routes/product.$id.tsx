@@ -113,7 +113,7 @@ function Product() {
                 <input type="date" min={new Date().toISOString().slice(0,10)} value={start} onChange={(e) => setStart(e.target.value)} className="mt-1 w-full border-b border-ink bg-transparent py-1 font-mono text-sm outline-none" />
               </label>
               <label className="mt-3 block"><span className="micro text-charcoal">Return date</span><input aria-label="Return date" type="date" min={start || undefined} value={start ? addDays(start, days) : ""} readOnly className="mt-1 w-full border-b border-ink bg-transparent py-1 font-mono text-sm" /></label>
-              <p className="mt-3 text-xs text-charcoal">Sample pricing. Refundable deposit amount and delivery estimate will be confirmed before reservation.</p>
+              <p className="mt-3 text-xs text-charcoal">Sample pricing and rental durations. Refundable deposit amount and delivery estimate will be confirmed before reservation.</p>
               <Button variant="editorial" size="editorial" onClick={() => { if (!start || start < new Date().toISOString().slice(0,10)) { setDateError("Choose a future start date."); return; } setDateError(""); setReservation(true); }} className="micro mt-4 w-full bg-ink py-3 text-bone hover:bg-editorial">Reserve This Piece →</Button>
               {dateError && <p role="alert" className="mt-2 text-sm text-editorial">{dateError}</p>}
             </div>}
@@ -138,7 +138,7 @@ function Product() {
 
           {/* NOTE */}
           <div className="paper paper-grain mt-10 rotate-[-1.5deg] bg-blush p-7 text-editorial" >
-            <p className="micro">Note from Tinamarie</p>
+            <p className="micro">Sample styling note</p>
             <p className="mt-1 font-serif text-3xl">Why I picked it</p>
             <p className="hand mt-4 text-[28px] leading-[1.35]">{p.tinamarie}</p>
           </div>
@@ -180,7 +180,7 @@ function Product() {
           <p className="font-serif text-xl">{p.name}</p>
           <dl className="grid grid-cols-2 gap-3 text-sm"><dt>Start date</dt><dd>{start}</dd><dt>Return date</dt><dd>{start ? addDays(start, days) : ''}</dd><dt>Sample rental price</dt><dd>${p.rent}</dd><dt>Refundable deposit</dt><dd>To be confirmed</dd><dt>Delivery estimate</dt><dd>To be confirmed</dd></dl>
           <div className="flex flex-wrap gap-4"><Link onClick={() => setReservation(false)} to="/how-it-works" className="link-line">How Renting Works</Link><Link onClick={() => setReservation(false)} to="/how-it-works" hash="shipping-returns" className="link-line">Shipping / Returns</Link><Link onClick={() => setReservation(false)} to="/how-it-works" hash="damage-terms" className="link-line">Damage Terms</Link></div>
-          <Button variant="editorial" size="editorial" onClick={() => { add(p, "Rent", days, start); setReservation(false); }} className="micro bg-ink py-4 text-bone">Add selection to bag →</Button>
+          <Button variant="editorial" size="editorial" onClick={() => { setReservation(false); window.setTimeout(() => add(p, "Rent", days, start), 220); }} className="micro bg-ink py-4 text-bone">Add selection to bag →</Button>
         </DialogContent>
       </Dialog>
     </div>
