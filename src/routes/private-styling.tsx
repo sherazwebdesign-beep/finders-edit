@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { submitRequest } from '@/lib/requests.functions';
+import { imagePayload } from '@/lib/image-upload';
 import { Arrow, Mark } from "@/lib/pen";
 
 export const Route = createFileRoute("/private-styling")({
@@ -25,6 +27,9 @@ const field = "mt-1 w-full border-b border-ink bg-transparent py-2 font-serif ou
 function Styling() {
   const [imgs, setImgs] = useState<(string | null)[]>([null, null, null]);
   const [sent, setSent] = useState(false);
+  const [files, setFiles] = useState<(File | null)[]>([null,null,null]);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
   return (
     <div className="bg-bone text-ink">
@@ -77,37 +82,39 @@ function Styling() {
               <Link to="/archive" className="link-line mt-8 inline-block">Explore the archive meanwhile →</Link>
             </div>
           ) : (
-            <form onSubmit={(e) => { e.preventDefault(); setSent(true); document.getElementById("styling-dossier")?.scrollIntoView({ behavior: "smooth", block: "start" }); }} className="mt-12 space-y-10">
+            <form onSubmit={async (e) => { e.preventDefault(); const values = new FormData(e.currentTarget); setError(""); if (files.some(f => !f)) { setError("Please upload all three inspiration images."); return; } setBusy(true); try { const details: Record<string,string> = {}; values.forEach((v,k) => { if (typeof v === "string") details[k] = v; }); await submitRequest({ data: { kind: "styling", name: details.name ?? "", email: details.email ?? "", details, images: await Promise.all(files.filter((f): f is File => Boolean(f)).map(imagePayload)), website: "" } }); setSent(true); document.getElementById("styling-dossier")?.scrollIntoView({ block: "start" }); } catch { setError("Your request could not be saved. Please try again."); } finally { setBusy(false); } }} className="mt-12 space-y-10">
               <div className="grid grid-cols-3 gap-3">
                 {slots.map((s, i) => (
                   <label key={s} className="block cursor-pointer">
                     <div className="flex aspect-[3/4] items-center justify-center overflow-hidden border border-dashed border-ink bg-bone hover:bg-linen">
                       {imgs[i] ? <img src={imgs[i] ?? ""} alt="" className="h-full w-full object-cover" /> : <span className="micro px-4 text-center text-charcoal">+ Upload<br />{s}</span>}
                     </div>
-                    <input type="file" accept="image/*" className="sr-only" onChange={(e) => {
+                    <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={(e) => {
                       const f = e.target.files?.[0];
-                      if (f) setImgs((x) => x.map((y, j) => (j === i ? URL.createObjectURL(f) : y)));
+                      if (!f) return; if (f.size > 5 * 1024 * 1024 || !["image/jpeg", "image/png", "image/webp"].includes(f.type)) { setError("Choose JPG, PNG, or WebP images, up to 5 MB each."); return; } setFiles(x => x.map((y,j) => j === i ? f : y)); setImgs((x) => x.map((y,j) => { if (j !== i) return y; if (y) URL.revokeObjectURL(y); return URL.createObjectURL(f); })); setError("");
                     }} />
                     <span className="micro mt-2 block">{s}</span>
                   </label>
                 ))}
               </div>
               <div className="grid gap-8 sm:grid-cols-2">
-                <label className="block"><span className="micro">Name</span><input required className={field} /></label>
-                <label className="block"><span className="micro">Email</span><input required type="email" className={field} /></label>
-                <label className="block sm:col-span-2"><span className="micro">Occasion or destination</span><input required className={field} /></label>
-                <label className="block"><span className="micro">Event date</span><input type="date" className={field} /></label>
-                <label className="block"><span className="micro">Needed-by date</span><input type="date" className={field} /></label>
-                <label className="block"><span className="micro">Rental or purchase budget</span><input className={field} placeholder="e.g. $150 rental" /></label>
+                <label className="block"><span className="micro">Name</span><input name="name" required className={field} /></label>
+                <label className="block"><span className="micro">Email</span><input name="email" required type="email" className={field} /></label>
+                <label className="block sm:col-span-2"><span className="micro">Occasion or destination</span><input name="occasion" required className={field} /></label>
+                <label className="block"><span className="micro">Event date</span><input name="eventDate" type="date" className={field} /></label>
+                <label className="block"><span className="micro">Needed-by date</span><input name="neededBy" type="date" className={field} /></label>
+                <label className="block"><span className="micro">Rental or purchase budget</span><input name="budget" className={field} placeholder="e.g. $150 rental" /></label>
                 <label className="block"><span className="micro">Preference</span>
-                  <select className={field}><option>Open to either</option><option>Rent</option><option>Own</option></select>
+                  <select name="preference" className={field}><option>Open to either</option><option>Rent</option><option>Own</option></select>
                 </label>
               </div>
               <label className="block"><span className="micro">What do you have in mind?</span>
-                <textarea rows={5} placeholder="Tell Tinamarie where you're going, what you're wearing, and what you wish someone would whisper when you walk in…" className="mt-2 w-full border border-ink bg-bone p-4 font-serif outline-none focus:border-editorial" />
+                <textarea name="vision" rows={5} placeholder="Tell Tinamarie where you're going, what you're wearing, and what you wish someone would whisper when you walk in…" className="mt-2 w-full border border-ink bg-bone p-4 font-serif outline-none focus:border-editorial" />
               </label>
-              <label className="block"><span className="micro">Any fit preferences, clip-on needs, or materials you avoid?</span><input className={field} /></label>
-              <button className="micro w-full bg-ink py-5 text-bone hover:bg-editorial">Request Private Styling →</button>
+              <label className="block"><span className="micro">Any fit preferences, clip-on needs, or materials you avoid?</span><input name="fit" className={field} /></label>
+              <p className="text-sm text-charcoal">Three JPG, PNG, or WebP images, up to 5 MB each. Your details and images are stored privately to respond to your styling request.</p>
+              {error && <p role="alert" className="text-editorial">{error}</p>}
+              <button disabled={busy} className="micro w-full bg-ink py-5 text-bone hover:bg-editorial">{busy ? "Sending…" : "Request Private Styling →"}</button>
             </form>
           )}
         </div>
