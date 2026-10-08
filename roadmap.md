@@ -1,4 +1,5 @@
 # Roadmap
+- [ ] Re-audit the latest client briefs and complete missing copy, interaction, and layout changes.
 - [x] Complete seven-page browsing, approved copy, shared navigation, and bag.
 - [x] Verify desktop and phone layouts, filters, reservation review, and missing-piece handling.
 - [x] Save contact requests, private styling images, and newsletter preferences; verify real test entries.
