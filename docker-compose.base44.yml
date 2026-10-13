@@ -1,0 +1,54 @@
+# Base44 development environment for the Finders Edit site.
+#
+# Stack: TanStack Start (React 19) + Vite 8, served by Vite's own SSR dev server.
+# The app runs from the cloned checkout, bind-mounted into the container with a
+# live-reloading dev command, so edits in this sandbox show up without rebuilds.
+#
+# External service: Supabase (hosted, never run locally).
+#   - The repo's committed .env already carries the public project URL and the
+#     publishable key (both are client-safe values the browser needs).
+#   - The service role key, used by the server functions for contact / private
+#     styling / newsletter writes and private image storage, is a user secret.
+#     It is delivered by the platform to /run/base44/app.env, listed LAST so a
+#     dashboard value always overrides the repo's own defaults.
+#
+# No database service: browsing data is static (src/lib/pieces.ts) and all
+# persistence goes to the hosted Supabase project.
+services:
+  web:
+    image: oven/bun:1
+    working_dir: /app
+    # node_modules lives inside the bind-mounted checkout, so dependencies are
+    # installed from the pinned lockfile on every start, after mounts are ready
+    # and before the dev server boots.
+    command:
+      - sh
+      - -ec
+      - bun install --frozen-lockfile && exec bun run dev --host 0.0.0.0 --port 3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+    environment:
+      # Bare passthrough of platform-provided values (never hardcoded).
+      - BASE44_PREVIEW_MODE
+      # Vite >= 6.1 appends this to server.allowedHosts, so the preview's
+      # external hostname is accepted by the dev server.
+      - __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS
+      - HOST=0.0.0.0
+      - PORT=3000
+    env_file:
+      - ./.env
+      - /run/base44/app.env
+    # Root inside the container so the install can write into the mounted checkout.
+    user: "0:0"
+    restart: on-failure
+    healthcheck:
+      # Probes the rendered SSR page, not just an open port.
+      test:
+        - CMD-SHELL
+        - bun -e "fetch(\"http://127.0.0.1:3000/\").then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 180s

@@ -1,0 +1,12 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "SUPABASE_SERVICE_ROLE_KEY",
+      "description": "Supabase service_role key for the project in supabase/config.toml (lextvwvmatyqyeiqspdy). Used server-side only, by the contact form, private styling requests (incl. private image uploads) and newsletter sign-up. Supabase dashboard -> Project Settings -> API keys -> service_role secret.",
+      "requiredAtBoot": false
+    }
+  ]
+}
